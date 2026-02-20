@@ -1,3 +1,0 @@
-# 🔮
-
-fool-me-once
