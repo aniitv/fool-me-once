@@ -68,26 +68,30 @@ export default function TarotCards() {
       yield i;
     }
   }
-  //iterator for sequential flipping choosen cards
-  const startFlipSequence = () => {
-    const generator = flipSequence(selectedCards);
+  const iterateTimeout = (iterator, timeout, onValue) => {
+    const deadline = Date.now();
+    +timeout * 1000;
 
-    function flipNext() {
-      const result = generator.next();
-      const value = result.value; // value = 0
-      const done = result.done; //done=false
+    function process() {
+      if (Date.now() >= deadline) {
+        return; // exit the function if the deadline is exceeded
+      }
+      const result = iterator.next();
+      const done = result.done;
       if (!done) {
-        // flipSoundRef.currentTime = 0;
-        // flipSoundRef.play();
-
-        //adding revealed cards to an array
-        setFlippedCards((prev) => [...prev, value]);
-
-        setTimeout(flipNext, 800);
+        onValue(result.value);
+        setTimeout(process, 800);
       }
     }
+    process();
+  };
+  //iterator with timeout for sequential flipping choosen cards
+  const startFlip = () => {
+    const generator = flipSequence(selectedCards);
 
-    flipNext();
+    iterateTimeout(generator, 3, (index) => {
+      setFlippedCards((prev) => [...prev, index]);
+    });
   };
 
   return (
@@ -101,7 +105,7 @@ export default function TarotCards() {
       </button>
 
       {selectedCards.length === 3 && (
-        <button className="reveal-button" onClick={startFlipSequence}>
+        <button className="reveal-button" onClick={startFlip}>
           Reveal Cards
         </button>
       )}
