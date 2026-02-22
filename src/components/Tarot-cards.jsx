@@ -113,26 +113,19 @@ export default function TarotCards() {
           const isFlipped = flippedCards.includes(flipIndex);
 
           return (
+            //iterating through deck array and calculating status of each card
             <div
               key={card.id}
               className={`card-container ${isSelected ? "selected" : ""} ${isFlipped ? "flipped" : ""}`}
               onClick={() => handleSelectCard(card)}
             >
-              <div className="card-inner">
+              <div className="card-body">
                 <div className="card-back">
-                  <img
-                    src="/cards/Back.jpg"
-                    alt="Tarot Card Back"
-                    className="card-image"
-                  />
+                  <img src="/cards/Back.jpg" className="card-image" />
                 </div>
 
                 <div className="card-front">
-                  <img
-                    src={card.image}
-                    alt={card.name}
-                    className="card-image"
-                  />
+                  <img src={card.image} className="card-image" />
                   <div className="card-label">{card.name}</div>
                 </div>
               </div>
