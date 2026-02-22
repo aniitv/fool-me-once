@@ -10,7 +10,7 @@ export default function TarotCards() {
   const [selectedCards, setSelectedCards] = useState([]);
   const [flippedCards, setFlippedCards] = useState([]);
 
-  const ShuffleSound = new Audio("/assets/sounds/shuffle.mp3");
+  // const ShuffleSound = new Audio("/assets/sounds/shuffle.mp3");
   // const FlipSound = new Audio("/assets/sounds/flip.wav");
 
   // ГЕНЕРАТОР
@@ -29,15 +29,15 @@ export default function TarotCards() {
     // якщо тасується, то не буде тасуватись знов
     if (isShuffling) return;
     // не можна вибрать поки не перетасується
-    setHasShuffled(false); 
+    setHasShuffled(false);
     // вибрані та перевернуті карти скидаються
     setSelectedCards([]);
     setFlippedCards([]);
 
     setIsShuffling(true);
-    ShuffleSound.currentTime = 0;
-    ShuffleSound.play();
-    // виклик ГЕНЕРАТОРА та ІТЕРАТОР 
+    // ShuffleSound.currentTime = 0;
+    // ShuffleSound.play();
+    // виклик ГЕНЕРАТОРА та ІТЕРАТОР
     const shuffleGenerator = Shuffle(Deck);
 
     const shuffleInterval = setInterval(() => {
@@ -58,9 +58,9 @@ export default function TarotCards() {
 
   const handleSelectCard = (card) => {
     if (!hasShuffled) return;
-    if (selectedCards.length >= 3) return;
+    if (selectedCards.length === 3) return;
 
-    setSelectedCards((prev) => [...prev, card]);
+    setSelectedCards((prev) => [...prev, card]); //prev - array of already selected cards + new selected card
   };
 
   function* flipSequence(cards) {
@@ -68,17 +68,19 @@ export default function TarotCards() {
       yield i;
     }
   }
-
+  //iterator for sequential flipping choosen cards
   const startFlipSequence = () => {
     const generator = flipSequence(selectedCards);
 
     function flipNext() {
-      const { value, done } = generator.next();
-
+      const result = generator.next();
+      const value = result.value; // value = 0
+      const done = result.done; //done=false
       if (!done) {
         // flipSoundRef.currentTime = 0;
         // flipSoundRef.play();
 
+        //adding revealed cards to an array
         setFlippedCards((prev) => [...prev, value]);
 
         setTimeout(flipNext, 800);
