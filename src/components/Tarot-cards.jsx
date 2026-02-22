@@ -55,7 +55,7 @@ export default function TarotCards() {
     // якщо тасується, то не буде тасуватись знов
     if (isShuffling) return;
     // не можна вибрать поки не перетасується
-    setHasShuffled(false); 
+    setHasShuffled(false);
     // вибрані та перевернуті карти скидаються
     setSelectedCards([]);
     setFlippedCards([]);
@@ -64,6 +64,7 @@ export default function TarotCards() {
     // ShuffleSound.currentTime = 0;
     // ShuffleSound.play();
     // виклик ГЕНЕРАТОРА та ІТЕРАТОР 
+
     const shuffleGenerator = Shuffle(Deck);
 
     const shuffleInterval = setInterval(() => {
@@ -84,9 +85,9 @@ export default function TarotCards() {
 
   const handleSelectCard = (card) => {
     if (!hasShuffled) return;
-    if (selectedCards.length >= 3) return;
+    if (selectedCards.length === 3) return;
 
-    setSelectedCards((prev) => [...prev, card]);
+    setSelectedCards((prev) => [...prev, card]); //prev - array of already selected cards + new selected card
   };
 
   function* flipSequence(cards) {
@@ -94,24 +95,30 @@ export default function TarotCards() {
       yield i;
     }
   }
+  const iterateTimeout = (iterator, timeout, onValue) => {
+    const deadline = Date.now();
+    +timeout * 1000;
 
-  const startFlipSequence = () => {
-    const generator = flipSequence(selectedCards);
-
-    function flipNext() {
-      const { value, done } = generator.next();
-
+    function process() {
+      if (Date.now() >= deadline) {
+        return; // exit the function if the deadline is exceeded
+      }
+      const result = iterator.next();
+      const done = result.done;
       if (!done) {
-        // flipSoundRef.currentTime = 0;
-        // flipSoundRef.play();
-
-        setFlippedCards((prev) => [...prev, value]);
-
-        setTimeout(flipNext, 800);
+        onValue(result.value);
+        setTimeout(process, 800);
       }
     }
+    process();
+  };
+  //iterator with timeout for sequential flipping choosen cards
+  const startFlip = () => {
+    const generator = flipSequence(selectedCards);
 
-    flipNext();
+    iterateTimeout(generator, 3, (index) => {
+      setFlippedCards((prev) => [...prev, index]);
+    });
   };
 
   return (
@@ -138,7 +145,7 @@ export default function TarotCards() {
       </button>
 
       {selectedCards.length === 3 && (
-        <button className="reveal-button" onClick={startFlipSequence}>
+        <button className="reveal-button" onClick={startFlip}>
           Reveal Cards
         </button>
       )}
@@ -150,26 +157,19 @@ export default function TarotCards() {
           const isFlipped = flippedCards.includes(flipIndex);
 
           return (
+            //iterating through deck array and calculating status of each card
             <div
               key={card.id}
               className={`card-container ${isSelected ? "selected" : ""} ${isFlipped ? "flipped" : ""}`}
               onClick={() => handleSelectCard(card)}
             >
-              <div className="card-inner">
+              <div className="card-body">
                 <div className="card-back">
-                  <img
-                    src="/cards/Back.jpg"
-                    alt="Tarot Card Back"
-                    className="card-image"
-                  />
+                  <img src="/cards/Back.jpg" className="card-image" />
                 </div>
 
                 <div className="card-front">
-                  <img
-                    src={card.image}
-                    alt={card.name}
-                    className="card-image"
-                  />
+                  <img src={card.image} className="card-image" />
                   <div className="card-label">{card.name}</div>
                 </div>
               </div>
