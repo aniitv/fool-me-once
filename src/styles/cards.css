@@ -4,45 +4,42 @@
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  padding: 20px; /* Reduced padding */
+  padding: 20px;
 
   min-height: 100vh;
-  width: 100vw; /* Force full viewport width */
+  width: 100vw;
   box-sizing: border-box;
-  overflow-x: hidden; /* Prevent horizontal scrollbars */
+  overflow-x: hidden;
 }
 .controls {
   margin-bottom: 20px;
 }
 
-/* The Deck Grid */
 .deck {
-  display: flex; /* Changed from grid to flex for better spreading */
-  flex-wrap: wrap; /* Allows cards to go to the next line if needed */
-  justify-content: center; /* Centers the cards */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 15px;
-  width: 95%; /* Uses 95% of the screen width */
-  max-width: none; /* REMOVE the 1000px limit */
+  width: 95%;
+  max-width: none;
   margin: 0 auto;
 }
-/* 3D Card Styling */
+
 .card-container {
-  width: 120px; /* Adjusted from 150px */
-  height: 200px; /* Adjusted from 250px */
+  width: 120px;
+  height: 200px;
   perspective: 1000px;
   cursor: pointer;
   transition: transform 0.3s ease;
 }
 
-/* Hover effect for unselected cards */
 .card-container:hover:not(.selected) {
   transform: translateY(-10px);
 }
 
-/* Styling for selected cards */
 .card-container.selected {
   transform: scale(1.05);
-  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5)); /* Gold glow */
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
 }
 
 .card-inner {
@@ -53,7 +50,6 @@
   transform-style: preserve-3d;
 }
 
-/* The Flip Trigger */
 .card-container.flipped .card-inner {
   transform: rotateY(180deg);
 }
@@ -77,8 +73,8 @@
 
 .card-front {
   background: white;
-  transform: rotateY(180deg); /* Faces the other way */
-  border: 4px solid #ffd700; /* Gold border for the face */
+  transform: rotateY(180deg);
+  border: 4px solid #ffd700;
 }
 
 .card-image {
@@ -88,7 +84,6 @@
   display: block;
 }
 
-/* Label for the card name on the front */
 .card-label {
   position: absolute;
   bottom: 0;
@@ -100,3 +95,70 @@
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 1px;}
+
+.shuffle-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Press Start 2P", cursive;
+
+  width: 170px;
+  height: 45px;
+
+  color: #000000;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+
+  background-color: transparent;
+
+  background-image: url("../assets/bluebutton.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  border-radius: 18px;
+
+  border: none;
+  transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+.reveal-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Press Start 2P", cursive;
+
+  width: 170px;
+  height: 45px;
+
+  color: #000000;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+
+  background-color: transparent;
+
+  background-image: url("../assets/greybutton.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  border-radius: 18px;
+
+  border: none;
+  transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+.shuffle-button:hover,
+.reveal-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
+  opacity: 0.9;
+}
+.shuffle-button:active,
+.reveal-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+  opacity: 1;
+}

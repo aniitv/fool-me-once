@@ -1,8 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CardList } from "../data/Cards";
 import "../styles/cards.css";
+import "../styles/stars.css";
 
 export default function TarotCards() {
+  const [star, setStar] = useState([]);
+  useEffect(() => {
+    createStars(setStar);
+  }, []);
+
   const [Deck, setDeck] = useState(CardList);
   const [isShuffling, setIsShuffling] = useState(false);
   const [hasShuffled, setHasShuffled] = useState(false);
@@ -10,10 +16,30 @@ export default function TarotCards() {
   const [selectedCards, setSelectedCards] = useState([]);
   const [flippedCards, setFlippedCards] = useState([]);
 
-  const ShuffleSound = new Audio("/assets/sounds/shuffle.mp3");
+  // const ShuffleSound = new Audio("/assets/sounds/shuffle.mp3");
   // const FlipSound = new Audio("/assets/sounds/flip.wav");
 
-  // ГЕНЕРАТОР
+  // Stars on background
+  function* starGenerator () {
+    while (true) {
+      yield {
+        id: Math.random().toString(36).substr(2),
+        left: Math.random() * 100,
+        duration: 2 + Math.random() * 3,
+        size: 10 + Math.random() * 5,
+      }
+    }
+  }
+  // Iterator
+  function createStars( setStar, intervalMs = 100 ) {
+    const generator = starGenerator();
+    setInterval(() => {
+      const { value } = generator.next();
+      setStar((prev) => [...prev, value]);
+    }, intervalMs);
+  }
+    
+    // ГЕНЕРАТОР
   function* Shuffle(cards) {
     const shuffled = [...cards];
     // супер класне перемішування Фішера-Йетса
@@ -35,8 +61,8 @@ export default function TarotCards() {
     setFlippedCards([]);
 
     setIsShuffling(true);
-    ShuffleSound.currentTime = 0;
-    ShuffleSound.play();
+    // ShuffleSound.currentTime = 0;
+    // ShuffleSound.play();
     // виклик ГЕНЕРАТОРА та ІТЕРАТОР 
     const shuffleGenerator = Shuffle(Deck);
 
@@ -90,6 +116,19 @@ export default function TarotCards() {
 
   return (
     <div className="tarot-container">
+      <div className= "star-container">
+        {star.map((star) => (
+          <span 
+            key={star.id}
+            className="star"
+            style={{
+              left: `${star.left}%`,
+              fontSize: `${star.size}px`,
+              animationDuration: `${star.duration}s`,
+            }}
+          >✦</span>
+        ))}
+      </div>
       <button
         className="shuffle-button"
         onClick={handleShuffle}
