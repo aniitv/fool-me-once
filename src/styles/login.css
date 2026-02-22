@@ -1,3 +1,4 @@
+
 .container {
   display: flex;
   flex-direction: column;
@@ -55,9 +56,10 @@ input::placeholder {
   font-family: "Roboto", sans-serif;
 }
 
+
 .input img {
-  width: 26px;
-  height: 26px;
+  width: 26px; /* adjust to your desired size */
+  height: 26px; 
   margin: 0 20px;
 }
 .submit-container {
@@ -65,7 +67,6 @@ input::placeholder {
   gap: 13px;
   margin: 60px auto 30px auto;
 }
-
 .submit {
   display: flex;
   justify-content: center;
@@ -74,12 +75,17 @@ input::placeholder {
   height: 59px;
   color: #000000;
 
+
   font-size: 19px;
   font-weight: 700;
   cursor: pointer;
   background-image: url("../assets/bluebutton.png");
+
   background-size: cover;
   background-position: center;
+
+  background-size: cover; /* fills the div */
+  background-position: center; 
   background-repeat: no-repeat;
 
   width: 240px;
@@ -88,7 +94,12 @@ input::placeholder {
 .gray {
   background-image: url("../assets/greybutton.png");
   background-size: cover;
-  background-position: center;
+  background-position: center;}
+
+.gray {
+  background-image: url("../assets/greybutton.png");
+  background-size: cover; /* fills the div */
+  background-position: center; 
   background-repeat: no-repeat;
 }
 .container-background {
@@ -102,3 +113,4 @@ input::placeholder {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+

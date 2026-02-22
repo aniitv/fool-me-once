@@ -40,6 +40,7 @@ export default function TarotCards() {
       }
     }, 60);
   };
+
   const handleSelectCard = (card) => {
     if (selectedCards.length >= 3) return;
 
@@ -80,6 +81,7 @@ export default function TarotCards() {
       >
         Shuffle
       </button>
+
       {selectedCards.length === 3 && (
         <button className="reveal-button" onClick={startFlipSequence}>
           Reveal Cards
