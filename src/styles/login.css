@@ -65,6 +65,7 @@ input::placeholder {
   gap: 13px;
   margin: 60px auto 30px auto;
 }
+
 .submit {
   display: flex;
   justify-content: center;
@@ -83,6 +84,7 @@ input::placeholder {
 
   width: 240px;
 }
+
 .gray {
   background-image: url("../assets/greybutton.png");
   background-size: cover;
