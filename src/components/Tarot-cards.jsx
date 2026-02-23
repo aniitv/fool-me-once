@@ -117,11 +117,7 @@ export default function TarotCards() {
     const generator = flipSequence(selectedCards);
 
     iterateTimeout(generator, 5, (card) => {
-<<<<<<< HEAD
       setFlippedCards((prev) => [...prev, card.id]); //  takes ID and adds it to the prev array (array of flipped cards)
-=======
-      setFlippedCards((prev) => [...prev, card.id]);
->>>>>>> d241ee0 (Json changes)
     });
   };
 
