@@ -84,7 +84,7 @@ export default function TarotCards() {
   };
 
   const handleSelectCard = (card) => {
-    if (!hasShuffled) return;
+    if (!hasShuffled) return; //prevent selection if cards haven't been shuffled yet
     if (selectedCards.length === 3) return;
 
     setSelectedCards((prev) => [...prev, card]); //prev - array of already selected cards (objects) + new selected card
@@ -116,7 +116,7 @@ export default function TarotCards() {
     const generator = flipSequence(selectedCards);
 
     iterateTimeout(generator, 5, (card) => {
-      setFlippedCards((prev) => [...prev, card.id]);
+      setFlippedCards((prev) => [...prev, card.id]); //  takes ID and adds it to the prev array (array of flipped cards)
     });
   };
 
