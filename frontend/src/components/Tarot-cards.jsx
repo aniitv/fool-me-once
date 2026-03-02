@@ -91,8 +91,15 @@ export default function TarotCards() {
     setSelectedCards((prev) => [...prev, card]); //prev - array of already selected cards (objects) + new selected card
   };
 
-  function* flipSequence(cards) {
+  function* flipSequence(cards, timeout) {
+    const startTime = Date.now();
     for (let i = 0; i < cards.length; i++) {
+      const currentTime = Date.now();
+      const end = currentTime - startTime;
+      if (end > timeout) {
+        console.log("timeout reached");
+        return;
+      }
       yield cards[i];
     }
   }
