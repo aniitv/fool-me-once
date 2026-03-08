@@ -1,4 +1,4 @@
-function* starGenerator() {
+export function* starGenerator() {
     while (true) {
        yield {
         id: Math.random().toString(36).slice(2),
@@ -7,8 +7,4 @@ function* starGenerator() {
         size: 10 + Math.random() * 5
       }
     }
-}
-
-module.exports ={
-    starGenerator
 }

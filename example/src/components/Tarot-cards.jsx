@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { shuffleDeck, selectCards, flipSequence, iterateTimeout } from "../lib/index";
+import { shuffleDeck, selectCards, flipSequence, iterateTimeout } from "../../../tarot-library/lib/action-cards";
 import { CardList } from "../data/Cards";
 import Background from "./Background";
 import "../styles/cards.css";

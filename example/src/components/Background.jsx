@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { starGenerator } from "../lib/starGenerator";
+import { starGenerator } from "../../../tarot-library/lib/starGenerator";
 import "../styles/stars.css";
 
 export default function Background() {

@@ -1,4 +1,4 @@
-function shuffleDeck(deck) {
+export function shuffleDeck(deck) {
   const shuffled = [...deck];
   let i = shuffled.length - 1;
   while (i > 0) {
@@ -9,18 +9,18 @@ function shuffleDeck(deck) {
   return shuffled;
 }
 
-function selectCards(selectedCards, card) {
+export function selectCards(selectedCards, card) {
   if (selectedCards.length >= 3) return selectedCards;
   return [...selectedCards, card];
 }
 
-function* flipSequence(cards) {
+export function* flipSequence(cards) {
   for (let i = 0; i < cards.length; i++) {
     yield cards[i];
   }
 }
 
-function iterateTimeout(iterator, timeoutSeconds, onValue) {
+export function iterateTimeout(iterator, timeoutSeconds, onValue) {
   const deadline = Date.now() + timeoutSeconds * 1000;
 
   function process() {
@@ -34,10 +34,3 @@ function iterateTimeout(iterator, timeoutSeconds, onValue) {
 
   process();
 }
-
-module.exports = {
-  shuffleDeck,
-  selectCards,
-  flipSequence,
-  iterateTimeout
-};
