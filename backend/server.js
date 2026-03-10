@@ -15,9 +15,6 @@ app.get("/", (req, res) => {
   res.send("Backend is running");
 });
 
-app.get("/login", (req, res) => {
-  res.sendFile(path.join(__dirname, "./frontend/src/components/Login.jsx"));
-});
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
