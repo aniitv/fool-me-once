@@ -1,8 +1,22 @@
 import { useEffect, useState } from "react";
 import { CardList } from "../data/Cards";
+import {
+  starGenerator,
+  Shuffle,
+  flipSequence,
+} from "../../../backend/logic.js";
+
 import "../styles/cards.css";
 import "../styles/stars.css";
 
+// Iterator
+function createStars(setStar, intervalMs = 100) {
+  const generator = starGenerator();
+  setInterval(() => {
+    const { value } = generator.next();
+    setStar((prev) => [...prev, value]);
+  }, intervalMs);
+}
 export default function TarotCards() {
   const [star, setStar] = useState([]);
   useEffect(() => {
@@ -18,38 +32,6 @@ export default function TarotCards() {
 
   // const ShuffleSound = new Audio("/assets/sounds/shuffle.mp3");
   // const FlipSound = new Audio("/assets/sounds/flip.wav");
-
-  // Stars on background
-  function* starGenerator() {
-    while (true) {
-      yield {
-        id: Math.random().toString(36).substr(2),
-        left: Math.random() * 100,
-        duration: 2 + Math.random() * 3,
-        size: 10 + Math.random() * 5,
-      };
-    }
-  }
-  // Iterator
-  function createStars(setStar, intervalMs = 100) {
-    const generator = starGenerator();
-    setInterval(() => {
-      const { value } = generator.next();
-      setStar((prev) => [...prev, value]);
-    }, intervalMs);
-  }
-
-  // ГЕНЕРАТОР
-  function* Shuffle(cards) {
-    const shuffled = [...cards];
-    // супер класне перемішування Фішера-Йетса
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-      // yield кожного разу після перемішування, щоб оновити стан колоди
-      yield [...shuffled];
-    }
-  }
 
   const handleShuffle = () => {
     // якщо тасується, то не буде тасуватись знов
@@ -91,18 +73,6 @@ export default function TarotCards() {
     setSelectedCards((prev) => [...prev, card]); //prev - array of already selected cards (objects) + new selected card
   };
 
-  function* flipSequence(cards, timeout) {
-    const startTime = Date.now();
-    for (let i = 0; i < cards.length; i++) {
-      const currentTime = Date.now();
-      const end = currentTime - startTime;
-      if (end > timeout) {
-        console.log("timeout reached");
-        return;
-      }
-      yield cards[i];
-    }
-  }
   const iterateTimeout = (iterator, timeout, onValue) => {
     const deadline = Date.now() + timeout * 1000;
 
