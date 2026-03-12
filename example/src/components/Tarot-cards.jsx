@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { shuffleDeck, selectCards, flipSequence, iterateTimeout } from "../../../tarot-library/lib/action-cards";
-import { CardList } from "../data/Cards";
-import Background from "./Background";
+import { shuffleDeck, selectCards, flipSequence, iterateTimeout } from "../../../tarot-library/lib/action-cards.jsx";
+import { CardList } from "../data/Cards.jsx";
+import Background from "./Background.jsx";
 import "../styles/cards.css";
 
 export default function TarotCards() {

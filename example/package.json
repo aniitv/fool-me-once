@@ -1,10 +1,10 @@
 {
   "name": "fool-me-once",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Interactive Tarot card web app built with React. Shuffle and reveal cards with animations, sounds, and a magical starry background",
-  "main": "main.jsx",
   "type": "module",
   "authors": "Anastasiia Zotova and Yaroslava Semeniuk",
+  "license": "MIT",
 
   "scripts": {
     "dev": "vite",
