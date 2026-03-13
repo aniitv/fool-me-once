@@ -9,7 +9,7 @@ mongoose
     console.log("Database connected successfully");
   })
   .catch((err) => {
-    console.log("Database cannot be Connected", err);
+    console.log("Database cannot be connected", err);
   });
 
 const Loginschema = new mongoose.Schema({
