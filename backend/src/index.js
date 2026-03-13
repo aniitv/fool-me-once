@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import collection from "./config.js";
 import mongoose from "mongoose";
+import { memoize } from "./memoize.js";
 
 dotenv.config();
 const app = express();
@@ -16,9 +17,17 @@ app.use(
 );
 app.use(express.json(), express.urlencoded({ extended: false }));
 
+const checkPassword = (password) => {
+  console.log("calculating...");
+  return password.length < 8 ? "Weak" : "Strong";
+};
+
+const memoCheck = memoize(checkPassword, { limit: 10, policy: "LRU" });
+
 app.post("/signup", async (req, res) => {
   const { username: name, password } = req.body;
-
+  const strength = memoCheck(req.body.password);
+  console.log("Password strength:", strength);
   try {
     if (await collection.findOne({ name })) {
       return res.send(
@@ -34,8 +43,6 @@ app.post("/signup", async (req, res) => {
 
     console.log("Created:", userdata);
     res.send("You succesfully created a new account, try to log in");
-    console.log("Назва бази даних:", mongoose.connection.name);
-    console.log("Назва колекції:", collection.collection.name);
   } catch (e) {
     res.status(500).send("Signup error");
   }
@@ -51,7 +58,7 @@ app.post("/signin", async (req, res) => {
       return res.send("success");
     }
 
-    res.send(user ? "wrong password" : "User name cannot be found");
+    res.send(user ? "Wrong password" : "User name cannot be found");
   } catch (e) {
     res.status(500).send("Signin error");
   }
