@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import collection from "./config.js";
 import mongoose from "mongoose";
-import { memoize } from "./memoize.js";
+import { memoize } from "../../memoize(1).js";
 
 dotenv.config();
 const app = express();
@@ -22,7 +22,7 @@ const checkPassword = (password) => {
   return password.length < 8 ? "Weak" : "Strong";
 };
 
-const memoCheck = memoize(checkPassword, { limit: 10, policy: "LRU" });
+const memoCheck = memoize(checkPassword, 10);
 
 app.post("/signup", async (req, res) => {
   const { username: name, password } = req.body;
