@@ -1,0 +1,1 @@
+function memoize(func) {}
