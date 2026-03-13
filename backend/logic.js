@@ -15,7 +15,6 @@ export function* Shuffle(cards) {
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    // yield кожного разу після перемішування, щоб оновити стан колоди
     yield [...shuffled];
   }
 }
@@ -32,3 +31,5 @@ export function* flipSequence(cards, timeout) {
     yield cards[i];
   }
 }
+
+export function memoize(func) {}
