@@ -24,3 +24,4 @@ dist-ssr
 *.sw?
 
 backend/.env
+frontend/src/components/Loginn.jsx

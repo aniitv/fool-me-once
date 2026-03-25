@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CardList } from "../data/Cards";
+import { CardList } from "../data/Cards.jsx";
 import {
   starGenerator,
   Shuffle,
@@ -70,7 +70,7 @@ export default function TarotCards() {
 
     if (selectedCards.length === 3) return;
 
-    setSelectedCards((prev) => [...prev, card]); //prev - array of already selected cards (objects) + new selected card
+    setSelectedCards((prev) => [...prev, card]);
   };
 
   const iterateTimeout = (iterator, timeout, onValue) => {
@@ -78,7 +78,7 @@ export default function TarotCards() {
 
     function process() {
       if (Date.now() >= deadline) {
-        return; // exit the function if the deadline is exceeded
+        return;
       }
       const result = iterator.next();
       const done = result.done;
@@ -89,12 +89,12 @@ export default function TarotCards() {
     }
     process();
   };
-  //iterator with timeout for sequential flipping choosen cards
+
   const startFlip = () => {
     const generator = flipSequence(selectedCards);
 
     iterateTimeout(generator, 5, (card) => {
-      setFlippedCards((prev) => [...prev, card.id]); //  takes ID and adds it to the prev array (array of flipped cards)
+      setFlippedCards((prev) => [...prev, card.id]);
     });
   };
 
