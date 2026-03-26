@@ -1,10 +1,60 @@
-const express = require("express");
-const path = require("path");
-const bcrypt = require("bcrypt");
+import express from "express";
+import cors from "cors";
+import bcrypt from "bcrypt";
+import dotenv from "dotenv";
+import collection from "./config.js";
+import mongoose from "mongoose";
 
+dotenv.config();
 const app = express();
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Дозволяємо ТІЛЬКИ твій React
+    methods: ["GET", "POST"],
+    credentials: true,
+  }),
+);
+app.use(express.json(), express.urlencoded({ extended: false }));
 
-const port = 5000;
-app.listen(port, () => {
-  console.log(`Server running on ${port}`);
+app.post("/signup", async (req, res) => {
+  const { username: name, password } = req.body;
+
+  try {
+    if (await collection.findOne({ name })) {
+      return res.send(
+        "User already exists. Please choose a different username.",
+      );
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const userdata = await collection.create({
+      name,
+      password: hashedPassword,
+    });
+
+    console.log("Created:", userdata);
+    res.send("You succesfully created a new account, try to log in");
+    console.log("Назва бази даних:", mongoose.connection.name);
+    console.log("Назва колекції:", collection.collection.name);
+  } catch (e) {
+    res.status(500).send("Signup error");
+  }
 });
+
+app.post("/signin", async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const user = await collection.findOne({ name: username });
+
+    if (user && (await bcrypt.compare(password, user.password))) {
+      return res.send("success");
+    }
+
+    res.send(user ? "wrong password" : "User name cannot be found");
+  } catch (e) {
+    res.status(500).send("Signin error");
+  }
+});
+
+app.listen(5000, () => console.log("Server running on port 5000"));

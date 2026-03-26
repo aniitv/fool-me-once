@@ -1,5 +1,6 @@
 {
   "name": "fool-me-once",
+  "proxy": "http://localhost:5000",
   "version": "0.0.0",
   "description": "Interactive Tarot card web app built with React. Shuffle and reveal cards with animations, sounds, and a magical starry background",
   "main": "main.jsx",

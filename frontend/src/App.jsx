@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import "./styles/index.css";
-import Login from "./components/Login.jsx";
+import Signin from "./components/Signin.jsx";
+import Signup from "./components/Signup.jsx";
 import TarotCards from "./components/TarotCards.jsx";
 import Home from "./components/Home";
 function App() {
@@ -10,12 +11,13 @@ function App() {
         <Link to="/" style={{ marginRight: "10px" }}>
           Main page
         </Link>
-        <Link to="/login">Login</Link>
+        <Link to="/signin">Signin</Link>
       </nav>
 
       <Routes>
         <Route path="/" element={<TarotCards />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/signin" element={<Signin />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </BrowserRouter>
   );

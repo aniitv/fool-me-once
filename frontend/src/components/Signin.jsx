@@ -1,21 +1,20 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-function Signup() {
+function Signin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const response = await fetch("http://localhost:5000/signup", {
+    const response = await fetch("http://localhost:5000/signin", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
     });
 
-    const message = await response.text();
-    alert(message);
+    const result = await response.text();
+    alert(result);
   };
 
   return (
@@ -30,13 +29,13 @@ function Signup() {
           placeholder="password"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Create new account</button>
+        <button type="submit">Log in</button>
       </form>
       <p>
-        Already have an account? <Link to="/signin">Sign in</Link>
+        Dont have an account? <Link to="/signup">Sign up</Link>
       </p>
     </div>
   );
 }
 
-export default Signup;
+export default Signin;
