@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import collection from "./config.js";
 import mongoose from "mongoose";
-import { memoize } from "../../memoize(1).js";
+import { memoize } from "../../memoize.js";
 
 dotenv.config();
 const app = express();
