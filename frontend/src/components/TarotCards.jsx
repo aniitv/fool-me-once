@@ -1,27 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CardList } from "../data/Cards.jsx";
 import {
-  starGenerator,
   Shuffle,
   flipSequence,
 } from "../../../backend/logic.js";
+import Background from "./Background.jsx";
 
 import "../styles/cards.css";
-import "../styles/stars.css";
 
-// Iterator
-function createStars(setStar, intervalMs = 100) {
-  const generator = starGenerator();
-  setInterval(() => {
-    const { value } = generator.next();
-    setStar((prev) => [...prev, value]);
-  }, intervalMs);
-}
 export default function TarotCards() {
-  const [star, setStar] = useState([]);
-  useEffect(() => {
-    createStars(setStar);
-  }, []);
 
   const [Deck, setDeck] = useState(CardList);
   const [isShuffling, setIsShuffling] = useState(false);
@@ -100,21 +87,7 @@ export default function TarotCards() {
 
   return (
     <div className="tarot-container">
-      <div className="star-container">
-        {star.map((star) => (
-          <span
-            key={star.id}
-            className="star"
-            style={{
-              left: `${star.left}%`,
-              fontSize: `${star.size}px`,
-              animationDuration: `${star.duration}s`,
-            }}
-          >
-            ✦
-          </span>
-        ))}
-      </div>
+      <Background />
       <button
         className="shuffle-button"
         onClick={handleShuffle}

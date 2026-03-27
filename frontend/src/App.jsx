@@ -3,6 +3,8 @@ import "./styles/index.css";
 import Signin from "./components/Signin.jsx";
 import Signup from "./components/Signup.jsx";
 import TarotCards from "./components/TarotCards.jsx";
+import Background from "./components/Background.jsx";
+import Card from "./components/Card.jsx";
 import Home from "./components/Home";
 function App() {
   return (

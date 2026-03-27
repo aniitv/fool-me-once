@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Background from "./Background";
 
 function Card({ card, isReversed }) {
     const [interpretation, setInterpretation] = useState("");
@@ -14,6 +15,7 @@ function Card({ card, isReversed }) {
 
     return (
         <div>
+            <Background />
             <h2>{card.name}</h2>
             <img src={card.image} className="card-image" />
             <p>{interpretation}</p>

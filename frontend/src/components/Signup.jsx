@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Background from "./Background";
 
 function Signup() {
   const [username, setUsername] = useState("");
@@ -20,6 +21,7 @@ function Signup() {
 
   return (
     <div>
+      <Background />
       <form onSubmit={handleSubmit}>
         <input
           placeholder="login"

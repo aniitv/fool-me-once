@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Background from "./Background";
+import "../styles/login.css";
 
 function Signin() {
   const [username, setUsername] = useState("");
@@ -18,8 +20,9 @@ function Signin() {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className="signin-container">
+      <Background />
+      <form onSubmit={handleSubmit} className="login-form">
         <input
           placeholder="login"
           onChange={(e) => setUsername(e.target.value)}
@@ -29,7 +32,7 @@ function Signin() {
           placeholder="password"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Log in</button>
+        <button className="login-button" type="submit">Log in</button>
       </form>
       <p>
         Dont have an account? <Link to="/signup">Sign up</Link>
