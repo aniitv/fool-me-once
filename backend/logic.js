@@ -31,5 +31,3 @@ export function* flipSequence(cards, timeout) {
     yield cards[i];
   }
 }
-
-export function memoize(func) {}
