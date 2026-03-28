@@ -5,7 +5,7 @@ function Card({ card, isReversed }) {
     const [interpretation, setInterpretation] = useState("");
 
     useEffect(() => {
-        fetch(`http://localhost:5000/interpret?cardName=$(card.name)}&isReversed=${isReversed}`)
+        fetch(`http://localhost:5000/interpret?cardName=${card.name}&isReversed=${isReversed}`)
 
             .then((response) => response.json())
             .then((data) => setInterpretation(data.interpretation))
