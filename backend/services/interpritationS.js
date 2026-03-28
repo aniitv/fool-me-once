@@ -1,5 +1,5 @@
 import { CardList } from "../../frontend/src/data/Cards";
-import { memoizeCard } from "..utils/memoize-card";
+import { memoizeCard } from "../utils/memoize-card";
 
 function interpretCard(cardName, isReversed) {
   console.log("Cache");
@@ -12,4 +12,6 @@ function interpretCard(cardName, isReversed) {
   }
 }
 
-export const memoizedInterpretCard = memoizeCard(interpretCard);
+export const memoizedInterpretCard = memoize(interpretCard, {
+  maxSize: 100,
+});
