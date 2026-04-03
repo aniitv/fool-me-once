@@ -4,8 +4,8 @@ import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import collection from "./config.js";
 import mongoose from "mongoose";
-import { memoize } from "../../memoize.js";
-import interpretationRouter from "./route/interpritation.js";
+import { memoize } from "./memoize.js";
+import interpretationRouter from "../route/interpritation.js";
 
 dotenv.config();
 const app = express();

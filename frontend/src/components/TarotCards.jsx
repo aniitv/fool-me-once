@@ -1,15 +1,11 @@
 import { useState } from "react";
-import { CardList } from "../data/Cards.jsx";
-import {
-  Shuffle,
-  flipSequence,
-} from "../../../backend/logic.js";
+import { CardList } from "../../../backend/src/data/Cards.js";
+import { Shuffle, flipSequence } from "../../../backend/logic.js";
 import Background from "./Background.jsx";
 
 import "../styles/cards.css";
 
 export default function TarotCards() {
-
   const [Deck, setDeck] = useState(CardList);
   const [isShuffling, setIsShuffling] = useState(false);
   const [hasShuffled, setHasShuffled] = useState(false);
