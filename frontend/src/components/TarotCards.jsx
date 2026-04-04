@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { CardList } from "../../../backend/src/data/Cards.js";
+import Saved from "./Saved.jsx";
 import { Shuffle, flipSequence } from "../../../backend/logic.js";
 import Background from "./Background.jsx";
 
@@ -13,8 +14,29 @@ export default function TarotCards() {
   const [selectedCards, setSelectedCards] = useState([]);
   const [flippedCards, setFlippedCards] = useState([]);
 
+  const [isArchiveOpen, setIsArchiveOpen] = useState(false);
+
+  const [interpretation, setInterpretation] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   // const ShuffleSound = new Audio("/assets/sounds/shuffle.mp3");
   // const FlipSound = new Audio("/assets/sounds/flip.wav");
+  const handleSaveImages = async () => {
+    if (selectedCards.length < 3) return;
+
+    try {
+      await fetch("http://localhost:5000/api/saved/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          images: selectedCards.map((c) => c.image),
+          date: new Date().toISOString(),
+        }),
+      });
+      alert("cards were saved");
+    } catch (error) {
+      console.error("error when saving cards", error);
+    }
+  };
 
   const handleShuffle = () => {
     // якщо тасується, то не буде тасуватись знов
@@ -49,7 +71,7 @@ export default function TarotCards() {
   };
 
   const handleSelectCard = (card) => {
-    if (!hasShuffled) return; //prevent selection if cards haven't been shuffled yet
+    if (!hasShuffled) return;
 
     if (selectedCards.length === 3) return;
 
@@ -84,19 +106,35 @@ export default function TarotCards() {
   return (
     <div className="tarot-container">
       <Background />
-      <button
-        className="shuffle-button"
-        onClick={handleShuffle}
-        disabled={isShuffling}
-      >
-        Shuffle
-      </button>
 
-      {selectedCards.length === 3 && (
-        <button className="reveal-button" onClick={startFlip}>
-          Reveal Cards
+      <div className="controls">
+        <button
+          className="shuffle-button"
+          onClick={handleShuffle}
+          disabled={isShuffling}
+        >
+          Shuffle
         </button>
-      )}
+
+        {selectedCards.length === 3 && (
+          <button className="reveal-button" onClick={startFlip}>
+            Reveal Cards
+          </button>
+        )}
+
+        {flippedCards.length === 3 && (
+          <button className="save-button" onClick={handleSaveImages}>
+            Save сards
+          </button>
+        )}
+
+        <button
+          className="archive-toggle-button"
+          onClick={() => setIsArchiveOpen(true)}
+        >
+          View saved readings
+        </button>
+      </div>
 
       <div className="deck">
         {Deck.map((card) => {
@@ -124,6 +162,12 @@ export default function TarotCards() {
           );
         })}
       </div>
+
+      {isArchiveOpen && (
+        <div className="modal-overlay">
+          <Saved onClose={() => setIsArchiveOpen(false)} />
+        </div>
+      )}
     </div>
   );
 }

@@ -31,3 +31,20 @@ export function* flipSequence(cards, timeout) {
     yield cards[i];
   }
 }
+
+let savedReadings = [];
+
+export const saveReadingSimple = (data) => {
+  const newEntry = {
+    ...data,
+    id: Date.now(),
+    timestamp: new Date(),
+  };
+
+  savedReadings.push(newEntry);
+  return newEntry;
+};
+
+export const getAllReadingsSimple = () => {
+  return savedReadings;
+};

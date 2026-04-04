@@ -5,7 +5,8 @@ import dotenv from "dotenv";
 import collection from "./config.js";
 import mongoose from "mongoose";
 import { memoize } from "./memoize.js";
-import interpretationRouter from "../route/interpritation.js";
+import interpretationRouter from "../routes/interpritation.js";
+import savedRoutes from "../routes/savedRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -66,5 +67,5 @@ app.post("/signin", async (req, res) => {
     res.status(500).send("Signin error");
   }
 });
-
+app.use("/api/saved", savedRoutes);
 app.listen(5000, () => console.log("Server running on port 5000"));
