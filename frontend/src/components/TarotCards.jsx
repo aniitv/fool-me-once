@@ -13,13 +13,13 @@ export default function TarotCards() {
 
   const [selectedCards, setSelectedCards] = useState([]);
   const [flippedCards, setFlippedCards] = useState([]);
-
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
 
-  const [interpretation, setInterpretation] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  // const [interpretation, setInterpretation] = useState("");
+  // const [isLoading, setIsLoading] = useState(false);
   // const ShuffleSound = new Audio("/assets/sounds/shuffle.mp3");
   // const FlipSound = new Audio("/assets/sounds/flip.wav");
+
   const handleSaveImages = async () => {
     if (selectedCards.length < 3) return;
 
@@ -29,7 +29,7 @@ export default function TarotCards() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           images: selectedCards.map((c) => c.image),
-          date: new Date().toISOString(),
+          priority: Math.floor(Math.random() * 5) + 1,
         }),
       });
       alert("cards were saved");
@@ -50,8 +50,8 @@ export default function TarotCards() {
     setIsShuffling(true);
     // ShuffleSound.currentTime = 0;
     // ShuffleSound.play();
-    // виклик ГЕНЕРАТОРА та ІТЕРАТОР
 
+    // виклик ГЕНЕРАТОРА та ІТЕРАТОР
     const shuffleGenerator = Shuffle(Deck);
 
     const shuffleInterval = setInterval(() => {
@@ -150,11 +150,15 @@ export default function TarotCards() {
             >
               <div className="card-body">
                 <div className="card-back">
-                  <img src="/cards/Back.jpg" className="card-image" />
+                  <img
+                    src="/cards/Back.jpg"
+                    className="card-image"
+                    alt="back"
+                  />
                 </div>
 
                 <div className="card-front">
-                  <img src={card.image} className="card-image" />
+                  <img src={card.image} className="card-image" alt="front" />
                   <div className="card-label">{card.name}</div>
                 </div>
               </div>

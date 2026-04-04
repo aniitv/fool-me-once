@@ -3,6 +3,7 @@ export class BiPriorityQueue {
     //{ item, priority, timestamp }
     this.elements = [];
   }
+
   enqueue(item, priority) {
     const newNode = {
       item,
@@ -17,12 +18,15 @@ export class BiPriorityQueue {
       this.elements.pop();
     }
   }
+
   dequeue() {
     return this.elements.shift();
   }
+
   isEmpty() {
     return this.elements.length === 0;
   }
+
   peek() {
     return this.elements[0];
   }

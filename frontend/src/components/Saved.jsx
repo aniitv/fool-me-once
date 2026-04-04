@@ -32,6 +32,7 @@ export default function Saved({ onClose }) {
         ) : (
           savedReadings.map((reading, index) => (
             <div key={index} className="archive-item">
+              <span>Priority: {reading.priority}</span>
               <div className="archive-cards">
                 {reading.item.images.map((img, i) => (
                   <img
