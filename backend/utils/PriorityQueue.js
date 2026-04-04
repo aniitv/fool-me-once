@@ -1,7 +1,6 @@
 export class BiPriorityQueue {
   constructor() {
-    //{ item, priority, timestamp }
-    this.elements = [];
+    this.elements = []; //{ item, priority, timestamp }
   }
 
   enqueue(item, priority) {
@@ -12,6 +11,7 @@ export class BiPriorityQueue {
     };
 
     this.elements.push(newNode);
+
     this.elements.sort((a, b) => b.priority - a.priority);
 
     if (this.elements.length > 10) {
@@ -19,15 +19,25 @@ export class BiPriorityQueue {
     }
   }
 
-  dequeue() {
+  //FIFO
+  dequeueHighest() {
     return this.elements.shift();
+  }
+
+  //LIFO
+  dequeueLowest() {
+    return this.elements.pop();
   }
 
   isEmpty() {
     return this.elements.length === 0;
   }
 
-  peek() {
+  peekFront() {
     return this.elements[0];
+  }
+
+  peekBack() {
+    return this.elements[this.elements.length - 1];
   }
 }
