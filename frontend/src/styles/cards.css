@@ -1,3 +1,11 @@
+html,
+body {
+  height: auto;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-y: initial;
+}
 .tarot-container {
   display: flex;
   flex-direction: column;
@@ -6,9 +14,11 @@
   padding: 20px;
 
   min-height: 100vh;
-  width: 100vw;
+  width: 100%;
   box-sizing: border-box;
   overflow-x: hidden;
+  overflow-y: auto;
+  padding-bottom: 80px;
 }
 .controls {
   margin-bottom: 20px;
@@ -167,4 +177,89 @@
   transform: translateY(1px);
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
   opacity: 1;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+.history-item {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 15px;
+  border: 1px solid #f39c12;
+}
+
+.history-images {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.small-card-img {
+  width: 60px;
+  height: auto;
+  border-radius: 4px;
+}
+
+.saved-archive {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 600px;
+  max-height: 80vh;
+  background: rgba(20, 20, 40, 0.95);
+  border: 3px solid #ffd700;
+  border-radius: 20px;
+  padding: 20px;
+  z-index: 1000;
+  overflow-y: auto;
+  color: white;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+}
+
+.archive-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.archive-item {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #444;
+}
+
+.archive-cards {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.archive-card-mini {
+  width: 80px !important;
+  height: 130px !important;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid #ffd700;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
 }
