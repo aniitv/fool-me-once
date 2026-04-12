@@ -5,26 +5,31 @@ class NotificationService {
   }
 
   add(message, type = "info", priority = 1) {
-    const notification = { id: Date.now(), message, type };
+    const notification = { id: Date.now(), message, type, priority };
 
-    this.queue.enqueue(notification, priority);
-    if (this.queue.size() > this.limit) {
-      this.queue.dequeue("oldest");
+    this.queue.push(notification);
+
+    if (this.queue.length > this.limit) {
+      this.queue.shift();
     }
+
     return notification;
   }
 
-  get(type = "newest") {
-    return this.queue.peek(type);
+  get() {
+    return this.queue[this.queue.length - 1];
   }
-  remove(type = "newest") {
-    return this.queue.dequeue(type);
+
+  remove() {
+    return this.queue.pop();
   }
+
   getAll() {
-    return this.queue.getAll();
+    return this.queue;
   }
+
   clearAll() {
-    this.queue.clear();
+    this.queue = [];
   }
 }
 

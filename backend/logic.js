@@ -1,3 +1,5 @@
+import { notificationS } from "./services/notificationS.js";
+
 // Stars on background
 export function* starGenerator() {
   while (true) {
@@ -17,19 +19,26 @@ export function* Shuffle(cards) {
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     yield [...shuffled];
   }
+
+  notificationS.add("Cards shuffled successfully", "success", 2);
 }
 
 export function* flipSequence(cards, timeout) {
   const startTime = Date.now();
+
+  notificationS.add("Starting card reveal...", "info", 1);
+
   for (let i = 0; i < cards.length; i++) {
     const currentTime = Date.now();
     const end = currentTime - startTime;
     if (end > timeout) {
-      console.log("timeout reached");
+      notificationS.add("Reveal timeout reached", "error", 5);
       return;
     }
     yield cards[i];
   }
+
+  notificationS.add("All cards revealed", "success", 3);
 }
 
 let savedReadings = [];
@@ -42,9 +51,12 @@ export const saveReadingSimple = (data) => {
   };
 
   savedReadings.push(newEntry);
+
+  notificationS.add("Tarot reading saved", "success", 3);
   return newEntry;
 };
 
 export const getAllReadingsSimple = () => {
+  notificationS.add("Readings fetched", "info", 1);
   return savedReadings;
 };
