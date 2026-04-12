@@ -128,24 +128,26 @@ export default function TarotCards() {
           </button>
         )}
 
-        {flippedCards.length === 3 && (
-          <button className="save-button" onClick={handleSaveImages}>
-            Save сards
-          </button>
-        )}
+        <div className= "button-row">
+          {flippedCards.length === 3 && (
+            <button className="save-button" onClick={handleSaveImages}>
+              Save сards
+            </button>
+          )}
 
-        {flippedCards.length === 3 && (
-          <button className="result-button" onClick={() => navigate("/result", { state: { cards: selectedCards } })}>
-            View Result
-          </button>
-        )}
+          {flippedCards.length === 3 && (
+            <button className="result-button" onClick={() => navigate("/result", { state: { cards: selectedCards } })}>
+              View Result
+            </button>
+          )}
 
-        <button
-          className="archive-toggle-button"
-          onClick={() => setIsArchiveOpen(true)}
-        >
-          View saved readings
-        </button>
+          <button
+            className="archive-toggle-button"
+            onClick={() => setIsArchiveOpen(true)}
+          >
+            View savings
+          </button>
+        </div>
       </div>
 
       <div className="deck">

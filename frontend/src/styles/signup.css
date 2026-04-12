@@ -1,0 +1,104 @@
+.signup-container{
+    position: relative;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -100px;
+    overflow: hidden;
+}
+.signup-form{
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 40px;
+    border-radius: 0px;
+    backdrop-filter: blur(10px);
+    background: #020a28;
+    box-shadow:
+      0 0 0 6px #020a28,
+      6px 0 0 6px #020a28,
+      -6px 0 0 6px #020a28,
+      0 6px 0 6px #020a28,
+      0 -6px 0 6px #020a28,
+
+      12px 0 0 0 #020a28,
+      -12px 0 0 0 #020a28,
+      0 12px 0 0 #020a28,
+      0 -12px 0 0 #020a28;
+    width: 300px;
+}
+input {
+    padding: 12px;
+    border-radius: 0px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-family: "Press Start 2P", cursive;
+    font-size: 10px;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.5);
+    outline: none;
+    transition: 0.3s;
+    box-shadow:
+      0 0 0 2px rgba(255, 255, 255, 0.5),
+      2px 0 0 2px rgba(255, 255, 255, 0.5),
+      -2px 0 0 2px rgba(255, 255, 255, 0.5),
+      0 2px 0 2px rgba(255, 255, 255, 0.5),
+      0 -2px 0 2px rgba(255, 255, 255, 0.5),
+}
+input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+input:focus {
+    box-shadow:
+      0 0 0 3px #8a2be2,
+      3px 0 0 3px #8a2be2,
+      -3px 0 0 3px #8a2be2,
+      0 3px 0 3px #8a2be2,
+      0 -3px 0 3px #8a2be2;
+}
+.signup-button{
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  font-family: "Press Start 2P", cursive;
+
+  width: 170px;
+  height: 45px;
+
+  color: #000000;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+
+  background-color: transparent;
+
+  background-image: url("../assets/greybutton.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  border-radius: 18px;
+
+  border: none;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s,
+    opacity 0.2s;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+p {
+  position: absolute;
+  bottom: 5px;
+  color: goldenrod;
+  z-index: 2;
+}
+a {
+  color: #8a2be2;
+  text-decoration: none;
+  transition: 0.3s;
+}
+a:hover {
+  text-shadow: 0 0 10px #8a2be2;
+}

@@ -111,6 +111,7 @@ body {
   justify-content: center;
   align-items: center;
   font-family: "Press Start 2P", cursive;
+  margin: 0 auto;
 
   width: 170px;
   height: 45px;
@@ -134,7 +135,6 @@ body {
     transform 0.2s,
     box-shadow 0.2s,
     opacity 0.2s;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
 }
 .reveal-button {
   display: flex;
@@ -164,7 +164,37 @@ body {
     transform 0.2s,
     box-shadow 0.2s,
     opacity 0.2s;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+.button-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  margin-top: 20px;
+}
+.save-button,
+.result-button,
+.archive-toggle-button {
+  font-family: "Press Start 2P", cursive;
+
+  width: 130px;
+  height: 35px;
+
+  color: goldenrod;
+  font-size: 9px;
+  font-weight: 700;
+  cursor: pointer;
+
+  border-radius: 18px;
+
+  border: none;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s,
+    opacity 0.2s;
+  box-shadow: 0 3px 6px rgb(186, 144, 36);
 }
 .shuffle-button:hover,
 .reveal-button:hover {

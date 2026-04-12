@@ -12,13 +12,13 @@ function App() {
   return (
     <BrowserRouter>
       <nav style={{ padding: "20px", background: "#030d33" }}>
-        <Link to="/" style={{ marginRight: "15px" }}>
+        <Link to="/" style={{ marginRight: "50px" }}>
           Main page
         </Link>
-        <Link to="/signin" style={{ marginRight: "15px" }}>
+        <Link to="/signin" style={{ marginRight: "50px" }}>
           Signin
         </Link>
-        <Link to="/notifications" style={{ marginRight: "15px" }}>
+        <Link to="/notifications" style={{ marginRight: "50px" }}>
           Notifications
         </Link>
       </nav>

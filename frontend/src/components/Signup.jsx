@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Background from "./Background";
+import "../styles/signup.css";
 
 function Signup() {
   const [username, setUsername] = useState("");
@@ -20,9 +21,9 @@ function Signup() {
   };
 
   return (
-    <div>
+    <div className="signup-container">
       <Background />
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="signup-form">
         <input
           placeholder="login"
           onChange={(e) => setUsername(e.target.value)}
@@ -32,7 +33,7 @@ function Signup() {
           placeholder="password"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Create new account</button>
+        <button className = "signup-button" type="submit">Create</button>
       </form>
       <p>
         Already have an account? <Link to="/signin">Sign in</Link>
