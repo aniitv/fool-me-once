@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import Background from "./Background";
 
 function Card({ card, isReversed }) {
     const [interpretation, setInterpretation] = useState("");
 
     useEffect(() => {
-        fetch(`http://localhost:5000/interpret?cardName=${card.name}&isReversed=${isReversed}`)
+        fetch(`http://localhost:5000/interpretation?cardName=${card.name}&isReversed=${isReversed}`)
 
             .then((response) => response.json())
             .then((data) => setInterpretation(data.interpretation))
@@ -14,12 +13,13 @@ function Card({ card, isReversed }) {
     }, [card.name, isReversed]);
 
     return (
-        <div>
-            <Background />
-            <h2>{card.name}</h2>
+        <div className="card-container">
+        <div className="card-body">
             <img src={card.image} className="card-image" />
-            <p>{interpretation}</p>
         </div>
+
+        <h3 className="card-title">{card.name}</h3>
+    </div>
     );
 }
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { CardList } from "../data/Cards.jsx";
+import { useNavigate } from "react-router-dom";
 import {
   Shuffle,
   flipSequence,
@@ -16,9 +17,7 @@ export default function TarotCards() {
 
   const [selectedCards, setSelectedCards] = useState([]);
   const [flippedCards, setFlippedCards] = useState([]);
-
-  // const ShuffleSound = new Audio("/assets/sounds/shuffle.mp3");
-  // const FlipSound = new Audio("/assets/sounds/flip.wav");
+  const navigate = useNavigate();
 
   const handleShuffle = () => {
     // якщо тасується, то не буде тасуватись знов
@@ -57,7 +56,9 @@ export default function TarotCards() {
 
     if (selectedCards.length === 3) return;
 
-    setSelectedCards((prev) => [...prev, card]);
+    const isReversed = Math.random() < 0.5;
+
+    setSelectedCards((prev) => [...prev, { ...card, reversed: isReversed }]);
   };
 
   const iterateTimeout = (iterator, timeout, onValue) => {
@@ -83,6 +84,10 @@ export default function TarotCards() {
     iterateTimeout(generator, 5, (card) => {
       setFlippedCards((prev) => [...prev, card.id]);
     });
+
+    setTimeout(() => {
+      navigate("/result", { state: { cards: selectedCards } });
+    }, 3000);
   };
 
   return (

@@ -1,0 +1,50 @@
+.result-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+
+  min-height: 100vh;
+  width: 100vw;
+  box-sizing: border-box;
+  overflow-x: visible;
+}
+.result-cards {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+}
+.card-container {
+  width: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  cursor: pointer;
+}
+.card-body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.card-title {
+  margin-top: 10px;
+
+  font-size: 12px;
+  text-align: center;
+
+  color: #ffd700;
+  font-family: "Press Start 2P", cursive;
+
+  text-shadow: 0 0 6px rgba(255, 215, 0, 0.3);
+}

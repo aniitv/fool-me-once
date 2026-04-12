@@ -5,7 +5,8 @@ import dotenv from "dotenv";
 import collection from "./config.js";
 import mongoose from "mongoose";
 import { memoize } from "../../memoize.js";
-import interpretationRouter from "./route/interpritation.js";
+import interpretationRouter from "./route/interpretation.js";
+import notificationRouter from "./route/notification.js";
 
 dotenv.config();
 const app = express();
@@ -25,7 +26,8 @@ const checkPassword = (password) => {
 
 const memoCheck = memoize(checkPassword, 10);
 
-app.use("/interpret", interpretationRouter);
+app.use("/interpretation", interpretationRouter);
+app.use("/notification", notificationRouter);
 
 app.post("/signup", async (req, res) => {
   const { username: name, password } = req.body;
