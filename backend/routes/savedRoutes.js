@@ -1,3 +1,6 @@
+import express from "express";
+const router = express.Router();
+
 export class BiPriorityQueue {
   constructor() {
     //{ item, priority, timestamp }
@@ -27,3 +30,17 @@ export class BiPriorityQueue {
     return this.elements[0];
   }
 }
+
+const savedQueue = new BiPriorityQueue();
+
+router.post("/save", (req, res) => {
+  const { images, priority } = req.body;
+  savedQueue.enqueue({ images }, priority || 1);
+  res.json({ message: "saved successfully" });
+});
+
+router.get("/all", (req, res) => {
+  res.json(savedQueue.elements || []);
+});
+
+export default router;
