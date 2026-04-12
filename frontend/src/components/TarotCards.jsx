@@ -15,6 +15,7 @@ export default function TarotCards() {
   const [selectedCards, setSelectedCards] = useState([]);
   const [flippedCards, setFlippedCards] = useState([]);
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
+  const [showRevealButton, setShowRevealButton] = useState(true);
   
   const navigate = useNavigate();
 
@@ -42,6 +43,7 @@ export default function TarotCards() {
   const handleShuffle = () => {
     // якщо тасується, то не буде тасуватись знов
     if (isShuffling) return;
+    setShowRevealButton(true);
     // не можна вибрать поки не перетасується
     setHasShuffled(false);
     // вибрані та перевернуті карти скидаються
@@ -99,15 +101,12 @@ export default function TarotCards() {
   };
 
   const startFlip = () => {
+    setShowRevealButton(false);
     const generator = flipSequence(selectedCards);
 
     iterateTimeout(generator, 5, (card) => {
       setFlippedCards((prev) => [...prev, card.id]);
     });
-
-    setTimeout(() => {
-      navigate("/result", { state: { cards: selectedCards } });
-    }, 3000);
   };
 
   return (
@@ -123,7 +122,7 @@ export default function TarotCards() {
           Shuffle
         </button>
 
-        {selectedCards.length === 3 && (
+        {selectedCards.length === 3 && showRevealButton && (
           <button className="reveal-button" onClick={startFlip}>
             Reveal Cards
           </button>
@@ -132,6 +131,12 @@ export default function TarotCards() {
         {flippedCards.length === 3 && (
           <button className="save-button" onClick={handleSaveImages}>
             Save сards
+          </button>
+        )}
+
+        {flippedCards.length === 3 && (
+          <button className="result-button" onClick={() => navigate("/result", { state: { cards: selectedCards } })}>
+            View Result
           </button>
         )}
 

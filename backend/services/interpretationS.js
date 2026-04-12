@@ -1,6 +1,6 @@
-import { CardList } from "../../frontend/src/data/Cards";
-import { memoizeCard } from "../utils/memoize-card";
-import { notificationS } from "./notificationS";
+import { CardList } from "../src/data/Cards.js";
+import { memoizeCard } from "../utils/memoize-card.js";
+import { notificationS } from "./notificationS.js";
 
 function interpretCard(cardName, isReversed) {
   const card = CardList.find((c) => c.name === cardName);

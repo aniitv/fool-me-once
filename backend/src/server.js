@@ -5,8 +5,8 @@ import dotenv from "dotenv";
 import collection from "./config.js";
 import mongoose from "mongoose";
 import { memoize } from "./memoize.js";
-import interpretationRouter from "./route/interpretation.js";
-import notificationRouter from "./route/notification.js";
+import interpretationRouter from "../routes/interpretation.js";
+import notificationRouter from "../routes/notification.js";
 import savedRoutes from "../routes/savedRoutes.js";
 
 dotenv.config();
