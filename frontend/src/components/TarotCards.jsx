@@ -1,23 +1,55 @@
 import { useState } from "react";
+<<<<<<< HEAD
 import { CardList } from "../data/Cards.jsx";
 import { useNavigate } from "react-router-dom";
 import {
   Shuffle,
   flipSequence,
 } from "../../../backend/logic.js";
+=======
+import { CardList } from "../../../backend/src/data/Cards.js";
+import Saved from "./Saved.jsx";
+import { Shuffle, flipSequence } from "../../../backend/logic.js";
+>>>>>>> 2594c4b952ddd9160620f04c3aad6606ce4d20ce
 import Background from "./Background.jsx";
 
 import "../styles/cards.css";
 
 export default function TarotCards() {
-
   const [Deck, setDeck] = useState(CardList);
   const [isShuffling, setIsShuffling] = useState(false);
   const [hasShuffled, setHasShuffled] = useState(false);
 
   const [selectedCards, setSelectedCards] = useState([]);
   const [flippedCards, setFlippedCards] = useState([]);
+<<<<<<< HEAD
   const navigate = useNavigate();
+=======
+  const [isArchiveOpen, setIsArchiveOpen] = useState(false);
+
+  // const [interpretation, setInterpretation] = useState("");
+  // const [isLoading, setIsLoading] = useState(false);
+  // const ShuffleSound = new Audio("/assets/sounds/shuffle.mp3");
+  // const FlipSound = new Audio("/assets/sounds/flip.wav");
+>>>>>>> 2594c4b952ddd9160620f04c3aad6606ce4d20ce
+
+  const handleSaveImages = async () => {
+    if (selectedCards.length < 3) return;
+
+    try {
+      await fetch("http://localhost:5000/api/saved/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          images: selectedCards.map((c) => c.image),
+          priority: Math.floor(Math.random() * 5) + 1,
+        }),
+      });
+      alert("cards were saved");
+    } catch (error) {
+      console.error("error when saving cards", error);
+    }
+  };
 
   const handleShuffle = () => {
     // якщо тасується, то не буде тасуватись знов
@@ -31,8 +63,8 @@ export default function TarotCards() {
     setIsShuffling(true);
     // ShuffleSound.currentTime = 0;
     // ShuffleSound.play();
-    // виклик ГЕНЕРАТОРА та ІТЕРАТОР
 
+    // виклик ГЕНЕРАТОРА та ІТЕРАТОР
     const shuffleGenerator = Shuffle(Deck);
 
     const shuffleInterval = setInterval(() => {
@@ -52,7 +84,7 @@ export default function TarotCards() {
   };
 
   const handleSelectCard = (card) => {
-    if (!hasShuffled) return; //prevent selection if cards haven't been shuffled yet
+    if (!hasShuffled) return;
 
     if (selectedCards.length === 3) return;
 
@@ -93,19 +125,35 @@ export default function TarotCards() {
   return (
     <div className="tarot-container">
       <Background />
-      <button
-        className="shuffle-button"
-        onClick={handleShuffle}
-        disabled={isShuffling}
-      >
-        Shuffle
-      </button>
 
-      {selectedCards.length === 3 && (
-        <button className="reveal-button" onClick={startFlip}>
-          Reveal Cards
+      <div className="controls">
+        <button
+          className="shuffle-button"
+          onClick={handleShuffle}
+          disabled={isShuffling}
+        >
+          Shuffle
         </button>
-      )}
+
+        {selectedCards.length === 3 && (
+          <button className="reveal-button" onClick={startFlip}>
+            Reveal Cards
+          </button>
+        )}
+
+        {flippedCards.length === 3 && (
+          <button className="save-button" onClick={handleSaveImages}>
+            Save сards
+          </button>
+        )}
+
+        <button
+          className="archive-toggle-button"
+          onClick={() => setIsArchiveOpen(true)}
+        >
+          View saved readings
+        </button>
+      </div>
 
       <div className="deck">
         {Deck.map((card) => {
@@ -121,11 +169,15 @@ export default function TarotCards() {
             >
               <div className="card-body">
                 <div className="card-back">
-                  <img src="/cards/Back.jpg" className="card-image" />
+                  <img
+                    src="/cards/Back.jpg"
+                    className="card-image"
+                    alt="back"
+                  />
                 </div>
 
                 <div className="card-front">
-                  <img src={card.image} className="card-image" />
+                  <img src={card.image} className="card-image" alt="front" />
                   <div className="card-label">{card.name}</div>
                 </div>
               </div>
@@ -133,6 +185,12 @@ export default function TarotCards() {
           );
         })}
       </div>
+
+      {isArchiveOpen && (
+        <div className="modal-overlay">
+          <Saved onClose={() => setIsArchiveOpen(false)} />
+        </div>
+      )}
     </div>
   );
 }

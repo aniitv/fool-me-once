@@ -4,9 +4,15 @@ import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import collection from "./config.js";
 import mongoose from "mongoose";
+<<<<<<< HEAD
 import { memoize } from "../../memoize.js";
 import interpretationRouter from "./route/interpretation.js";
 import notificationRouter from "./route/notification.js";
+=======
+import { memoize } from "./memoize.js";
+import interpretationRouter from "../routes/interpritation.js";
+import savedRoutes from "../routes/savedRoutes.js";
+>>>>>>> 2594c4b952ddd9160620f04c3aad6606ce4d20ce
 
 dotenv.config();
 const app = express();
@@ -68,5 +74,5 @@ app.post("/signin", async (req, res) => {
     res.status(500).send("Signin error");
   }
 });
-
+app.use("/api/saved", savedRoutes);
 app.listen(5000, () => console.log("Server running on port 5000"));
