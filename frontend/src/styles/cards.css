@@ -16,13 +16,9 @@ body {
   min-height: 100vh;
   width: 100%;
   box-sizing: border-box;
-<<<<<<< HEAD
   overflow-x: visible;
-=======
-  overflow-x: hidden;
   overflow-y: auto;
   padding-bottom: 80px;
->>>>>>> 2594c4b952ddd9160620f04c3aad6606ce4d20ce
 }
 .controls {
   margin-bottom: 20px;

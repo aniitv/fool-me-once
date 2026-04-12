@@ -1,16 +1,8 @@
 import { useState } from "react";
-<<<<<<< HEAD
-import { CardList } from "../data/Cards.jsx";
-import { useNavigate } from "react-router-dom";
-import {
-  Shuffle,
-  flipSequence,
-} from "../../../backend/logic.js";
-=======
 import { CardList } from "../../../backend/src/data/Cards.js";
 import Saved from "./Saved.jsx";
 import { Shuffle, flipSequence } from "../../../backend/logic.js";
->>>>>>> 2594c4b952ddd9160620f04c3aad6606ce4d20ce
+import { useNavigate } from "react-router-dom";
 import Background from "./Background.jsx";
 
 import "../styles/cards.css";
@@ -22,16 +14,12 @@ export default function TarotCards() {
 
   const [selectedCards, setSelectedCards] = useState([]);
   const [flippedCards, setFlippedCards] = useState([]);
-<<<<<<< HEAD
-  const navigate = useNavigate();
-=======
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
+  
+  const navigate = useNavigate();
 
   // const [interpretation, setInterpretation] = useState("");
   // const [isLoading, setIsLoading] = useState(false);
-  // const ShuffleSound = new Audio("/assets/sounds/shuffle.mp3");
-  // const FlipSound = new Audio("/assets/sounds/flip.wav");
->>>>>>> 2594c4b952ddd9160620f04c3aad6606ce4d20ce
 
   const handleSaveImages = async () => {
     if (selectedCards.length < 3) return;
