@@ -43,10 +43,20 @@ export class BiPriorityQueue {
 
 const savedQueue = new BiPriorityQueue();
 
-router.post("/save", (req, res) => {
+router.post("/save", async (req, res) => {
   const { images, priority } = req.body;
-  savedQueue.enqueue({ images }, priority || 1);
-  res.json({ message: "saved successfully" });
+  const controller = new AbortController();
+  try {
+    const validatedImages = await asyncFilter(
+      images || [],
+      (img, signal) => validateAsync(img, signal),
+      controller.signal,
+    );
+    savedQueue.enqueue({ images: validatedImages }, priority || 1);
+    res.json({ message: "saved successfully" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 router.get("/all", (req, res) => {
