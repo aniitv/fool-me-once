@@ -5,6 +5,8 @@ class NotificationService {
   }
 
   add(message, type = "info", priority = 1) {
+    if (!message) return null;
+
     const notification = { id: Date.now(), message, type, priority };
 
     this.queue.push(notification);
@@ -16,16 +18,24 @@ class NotificationService {
     return notification;
   }
 
-  get() {
-    return this.queue[this.queue.length - 1];
+  getAll() {
+    return this.queue;
+  }
+
+  getByType(type) {
+    return this.queue.filter((n) => n.type === type);
   }
 
   remove() {
     return this.queue.pop();
   }
 
-  getAll() {
-    return this.queue;
+  removeByType(type) {
+    const index = this.queue.findIndex((n) => n.type === type);
+    if (index !== -1) {
+      return this.queue.splice(index, 1);
+    }
+    return null;
   }
 
   clearAll() {

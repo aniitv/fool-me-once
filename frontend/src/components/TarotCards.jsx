@@ -40,7 +40,7 @@ export default function TarotCards() {
     }
   };
 
-  const handleShuffle = () => {
+  const handleShuffle = async () => {
     // якщо тасується, то не буде тасуватись знов
     if (isShuffling) return;
     setShowRevealButton(true);
@@ -71,6 +71,17 @@ export default function TarotCards() {
         setDeck(value);
       }
     }, 60);
+
+    try {
+      await fetch("http://localhost:5000/notification", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: "Deck shuffled", type: "info", priority: 1 })
+      });
+    } catch (error) {
+      console.error("Error occurred while fetching notifications:", error);
+
+    }
   };
 
   const handleSelectCard = (card) => {
@@ -100,13 +111,23 @@ export default function TarotCards() {
     process();
   };
 
-  const startFlip = () => {
+  const startFlip = async () => {
     setShowRevealButton(false);
     const generator = flipSequence(selectedCards);
 
     iterateTimeout(generator, 5, (card) => {
       setFlippedCards((prev) => [...prev, card.id]);
     });
+
+    try{
+      await fetch("http://localhost:5000/notification", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: "Cards revealed", type: "success", priority: 1 })
+      });
+    } catch (error) {
+      console.error("Error occurred while fetching notifications:", error);
+    }
   };
 
   return (

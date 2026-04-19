@@ -1,0 +1,23 @@
+.notification {
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #000;
+}
+
+.notification.info {
+  background-color: #d4edda;
+}
+
+.notification.warning {
+  background-color: #fff3cd;
+}
+
+.notification.error {
+  background-color: #f8d7da;
+}
+
+.notification.success {
+  background-color: #cce5ff;
+}

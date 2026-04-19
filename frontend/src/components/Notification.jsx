@@ -1,24 +1,35 @@
 import { useEffect, useState } from "react";
 import Background from "./Background";
+import "../styles/notification.css";
 
 function NotificationsPage() {
   const [notifications, setNotifications] = useState([]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      fetch("http://localhost:5000/notifications")
-      .then((res) => res.json())
+  const fetchNotifications = () => {
+    fetch("http://localhost:5000/notification")
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to fetch notifications");
+        }
+        return res.json();
+      })
       .then((data) => setNotifications(data))
-      .catch(() => setNotifications([]));
-    }, 5000);
+      .catch((err) => {
+        console.error(err);
+        setNotifications([]);
+      });
+  };
 
-    return () => clearInterval(interval);
+  useEffect(() => {
+    fetchNotifications();
+
+      const interval = setInterval(fetchNotifications, 5000);
+      return () => clearInterval(interval);
   }, []);
     
   return (
     <div style={{ padding: "20px" }}>
         <Background />
-      <h2>Notifications</h2>
 
       {notifications.length === 0 ? (
         <p>No notifications</p>
@@ -27,13 +38,7 @@ function NotificationsPage() {
           .slice()
           .reverse()
           .map((n) => (
-            <div
-              key={n.id}
-              style={{
-                ...styles.item,
-                ...styles[n.type]
-              }}
-            >
+            <div key={n.id} className ={`notification ${n.type}`}>
               {n.message}
             </div>
           ))
