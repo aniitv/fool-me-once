@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import collection from "./config.js";
 import mongoose from "mongoose";
 import { memoize } from "./memoize.js";
-import interpretationRouter from "../routes/interpretation.js";
+import aiRouter from "../routes/ai.js";
 import notificationRouter from "../routes/notification.js";
 import savedRoutes from "../routes/savedRoutes.js";
 
@@ -27,7 +27,7 @@ const checkPassword = (password) => {
 
 const memoCheck = memoize(checkPassword, 10);
 
-app.use("/interpretation", interpretationRouter);
+app.use("/api/ai", aiRouter);
 app.use("/notification", notificationRouter);
 
 app.post("/signup", async (req, res) => {
