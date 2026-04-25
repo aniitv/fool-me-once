@@ -1,6 +1,6 @@
 import express, { text } from "express";
 import { Promise } from "../utils/Promise.js";
-import { memoizedAi } from "../services/memoizedAI";
+import { memoizedAi } from "../services/memoizedAI.js";
 
 const router = express.Router();
 
@@ -12,7 +12,8 @@ router.post("/interpret", async (req, res) => {
     );
 
     res.json({
-      source: "AI",
+      source: "gemini",
+      cards,
       interpretations: results,
     });
   } catch (error) {

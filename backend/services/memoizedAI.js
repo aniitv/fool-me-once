@@ -1,6 +1,6 @@
-import { memoizedCard } from "../utils/memoization.js";
-import { interpretCard } from "./aiService.js";
+import { memoizeCard } from "../utils/memoize-card.js";
+import { interpretGemini } from "./gemini.js";
 
-export const memoizedAi = memoizedCard(interpretCard, {
+export const memoizedAi = memoizeCard(interpretGemini, {
   maxSize: 50,
 });
