@@ -1,6 +1,6 @@
 import { memoizedCard } from "../utils/memoization.js";
-import fetchAi from "./aiService.js";
+import { interpretCard } from "./aiService.js";
 
-export const memoizedAi = memoizedCard(fetchAi, {
+export const memoizedAi = memoizedCard(interpretCard, {
   maxSize: 50,
 });
