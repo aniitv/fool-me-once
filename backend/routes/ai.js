@@ -1,5 +1,4 @@
-import express, { text } from "express";
-import { Promise } from "../utils/Promise.js";
+import express from "express";
 import { memoizedAi } from "../services/memoizedAI.js";
 
 const router = express.Router();
@@ -7,17 +6,25 @@ const router = express.Router();
 router.post("/interpret", async (req, res) => {
   try {
     const { cards } = req.body;
-    const results = await Promise(cards, (card, { signal }) =>
-      memoizedAi(card, { signal }),
+
+    console.log("Cards received:", cards);
+
+    if (!cards || !Array.isArray(cards) || cards.length === 0) {
+      return res.status(400).json({ error: "No cards provided" });
+    }
+
+    const results = await Promise.all(
+      cards.map((card) => memoizedAi(card, {})),
     );
 
     res.json({
       source: "gemini",
-      cards,
       interpretations: results,
     });
   } catch (error) {
-    res.status(500).json({ error: "Failed to interpret cards" });
+    console.error("AI ROUTE ERROR:", error.message);
+    console.error("STACK:", error.stack);
+    res.status(500).json({ error: error.message });
   }
 });
 

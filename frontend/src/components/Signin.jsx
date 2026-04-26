@@ -16,7 +16,23 @@ function Signin() {
     });
 
     const result = await response.text();
+
+    if(!response.ok){
+      alert(result);
+      return;
+    }
     alert(result);
+
+    try {
+      await fetch("http://localhost:5000/notification", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: "Logged in an account", type: "info", priority: 1 })
+      });
+    } catch (error) {
+      console.error("Error occurred while fetching notifications:", error);
+
+    }
   };
 
   return (

@@ -17,7 +17,23 @@ function Signup() {
     });
 
     const message = await response.text();
+
+    if (!response.ok){
+      alert(message);
+      return;
+    }
     alert(message);
+
+    try {
+      await fetch("http://localhost:5000/notification", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: "Account is created", type: "info", priority: 1 })
+      });
+    } catch (error) {
+      console.error("Error occurred while fetching notifications:", error);
+
+    }
   };
 
   return (

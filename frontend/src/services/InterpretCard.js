@@ -7,8 +7,11 @@ export async function interpretCard(cards, { signal } = {}) {
     body: JSON.stringify({ cards }),
     signal,
   });
+
   if (!response.ok) {
-    throw new Error("Failed to fetch AI interpretation");
+    const err = await response.json().catch(() => ({}));
+    throw new Error(err.error || "Failed to fetch AI interpretation");
   }
+
   return await response.json();
 }

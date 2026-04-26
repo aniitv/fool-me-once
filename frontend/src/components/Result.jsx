@@ -1,7 +1,20 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Card from "./Card";
 import Background from "./Background";
+import { interpretCard } from "../services/interpretCard.js";
+import "../styles/result.css";
+
+function Card({ card, interpretation }) {
+  return (
+    <div className="card-container">
+      <div className="card-body">
+        <img src={card.image} className="card-image" alt={card.name} />
+      </div>
+      <h3 className="card-title">{card.name}</h3>
+      <p>{interpretation}</p>
+    </div>
+  );
+}
 
 export default function ResultPage() {
   const location = useLocation();
@@ -9,52 +22,54 @@ export default function ResultPage() {
   const cards = location.state?.cards;
 
   const [results, setResults] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!cards || cards.length === 0) {
+      navigate("/");
+      return;
+    }
+
     const controller = new AbortController();
 
-    fetch("http://localhost:5000/api/ai/interpret", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      signal: controller.signal,
-      body: JSON.stringify({ cards }),
-    })
-      .then((res) => res.json())
-      .then((data) => setResults(data.interpretations))
-      .catch((err) => console.log(err));
+    interpretCard(cards, { signal: controller.signal })
+      .then((data) => {
+        setResults(data.interpretations || []);
+      })
+      .catch((err) => {
+        if (err.name !== "AbortError") {
+          setError(err.message);
+        }
+      })
+      .finally(() => setLoading(false));
 
     return () => controller.abort();
   }, [cards]);
 
-  if (!cards) {
-    return (
-      <div>
-        <h2>Немає даних</h2>
-        <button onClick={() => navigate("/")}>Назад</button>
-      </div>
-    );
-  }
+  if (!cards) return null;
 
   return (
     <div className="result-container">
       <Background />
-      <h1>AI Результат</h1>
+
+      {error && <p className="error-message">Помилка: {error}</p>}
 
       <div className="result-cards">
         {cards.map((card, index) => (
           <Card
             key={index}
             card={card}
-            interpretation={results[index]?.text || "Loading..."}
+            interpretation={
+              loading
+                ? "Завантаження..."
+                : results[index]?.text || "Немає інтерпретації"
+            }
           />
         ))}
       </div>
 
-      <button onClick={() => navigate("/")}>
-        Новий розклад
-      </button>
+      <button onClick={() => navigate("/")}>Новий розклад</button>
     </div>
   );
 }

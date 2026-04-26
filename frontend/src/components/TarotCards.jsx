@@ -76,7 +76,7 @@ export default function TarotCards() {
       await fetch("http://localhost:5000/notification", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: "Deck shuffled", type: "info", priority: 1 })
+        body: JSON.stringify({ message: "Deck shuffled", type: "info", priority: 2 })
       });
     } catch (error) {
       console.error("Error occurred while fetching notifications:", error);
@@ -123,7 +123,7 @@ export default function TarotCards() {
       await fetch("http://localhost:5000/notification", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: "Cards revealed", type: "success", priority: 1 })
+        body: JSON.stringify({ message: "Cards revealed", type: "success", priority: 2 })
       });
     } catch (error) {
       console.error("Error occurred while fetching notifications:", error);
