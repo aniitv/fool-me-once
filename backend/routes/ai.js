@@ -18,12 +18,11 @@ router.post("/interpret", async (req, res) => {
     );
 
     res.json({
-      source: "gemini",
+      source: "gemini-proxy",
       interpretations: results,
     });
   } catch (error) {
     console.error("AI ROUTE ERROR:", error.message);
-    console.error("STACK:", error.stack);
     res.status(500).json({ error: error.message });
   }
 });
