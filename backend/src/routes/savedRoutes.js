@@ -21,10 +21,7 @@ const validateAsync = (item, signal) => {
 async function* dataStreamGenerator(elements) {
   for (const el of elements) {
     await new Promise((resolve) => setTimeout(resolve, 50));
-    yield {
-      ...el,
-      processedAt: new Date().toISOString(),
-    };
+    yield { ...el, processedAt: new Date().toISOString() };
   }
 }
 
@@ -36,9 +33,7 @@ export class BiPriorityQueue {
     const newNode = { item, priority, timestamp: Date.now() };
     this.elements.push(newNode);
     this.elements.sort((a, b) => b.priority - a.priority);
-    if (this.elements.length > 10) {
-      this.elements.pop();
-    }
+    if (this.elements.length > 10) this.elements.pop();
   }
   dequeue() {
     return this.elements.shift();
@@ -67,6 +62,15 @@ router.post("/save", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+});
+
+router.get("/stream-data", async (req, res) => {
+  const stream = dataStreamGenerator(savedQueue.elements);
+  const processedData = [];
+  for await (const item of stream) {
+    processedData.push(item);
+  }
+  res.json({ status: "success", data: processedData });
 });
 
 router.get("/all", (req, res) => {
