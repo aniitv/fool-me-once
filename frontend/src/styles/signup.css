@@ -88,7 +88,7 @@ input:focus {
     opacity 0.2s;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
 }
-p {
+.signup-container p {
   position: absolute;
   bottom: 5px;
   color: goldenrod;

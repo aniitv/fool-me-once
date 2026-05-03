@@ -8,7 +8,7 @@ export class ApiKeyStrategy {
       ...options,
       headers: {
         ...options.headers,
-        Authorization: `Api-Key ${this.apiKey}`,
+        "Content-Type": "application/json",
       },
     };
   }

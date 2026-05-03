@@ -5,9 +5,9 @@ import dotenv from "dotenv";
 import collection from "./config.js";
 import mongoose from "mongoose";
 import { memoize } from "./memoize.js";
-import aiRouter from "../routes/ai.js";
-import notificationRouter from "../routes/notification.js";
-import savedRoutes from "../routes/savedRoutes.js";
+import aiRouter from "../src/routes/ai.js";
+import notificationRouter from "../src/routes/notification.js";
+import savedRoutes from "../src/routes/savedRoutes.js";
 
 dotenv.config();
 const app = express();

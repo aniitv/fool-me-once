@@ -1,12 +1,14 @@
-import fetch from "node-fetch";
+export const authProxy = async (url, options = {}) => {
+  const apiKey = process.env.GEMINI_API_KEY;
+  const urlWithKey = `${url}${url.includes("?") ? "&" : "?"}key=${apiKey}`;
 
-export const authProxy = async (url, options = {}, strategy) => {
-  const modifiedOptions = await strategy.apply(options);
-  const response = await fetch(url, modifiedOptions);
+  const response = await fetch(urlWithKey, options);
 
   if (!response.ok) {
     const text = await response.text();
-    throw new Error(`Request failed with status ${response.status} - ${text}`);
+    console.error(`API Error ${response.status}:`, text);
+    throw new Error(`Request failed ${response.status}`);
   }
+
   return response.json();
 };

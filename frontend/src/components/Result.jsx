@@ -1,75 +1,124 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Background from "./Background";
-import { interpretCard } from "../services/interpretCard.js";
+import Background from "../components/Background";
 import "../styles/result.css";
 
-function Card({ card, interpretation }) {
-  return (
-    <div className="card-container">
-      <div className="card-body">
-        <img src={card.image} className="card-image" alt={card.name} />
-      </div>
-      <h3 className="card-title">{card.name}</h3>
-      <p>{interpretation}</p>
-    </div>
-  );
+async function sendNotification(message, type = "info", priority = 1) {
+  try {
+    await fetch("http://localhost:5000/notification", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message, type, priority }),
+    });
+  } catch (error) {
+    console.error("Notification error:", error);
+  }
+}
+
+async function fetchInterpretation(cards, signal) {
+  const response = await fetch("http://localhost:5000/api/ai/interpret", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ cards }),
+    signal,
+  });
+
+  if (!response.ok) {
+    const errData = await response.json().catch(() => ({}));
+    throw new Error(errData.error || "Помилка сервера при отриманні тлумачення");
+  }
+
+  return await response.json();
 }
 
 export default function ResultPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const cards = location.state?.cards;
+  const selectedCards = location.state?.cards;
 
-  const [results, setResults] = useState([]);
-  const [error, setError] = useState(null);
+  const [aiInterpretations, setAiInterpretations] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!cards || cards.length === 0) {
+    if (!selectedCards || selectedCards.length === 0) {
       navigate("/");
       return;
     }
 
     const controller = new AbortController();
 
-    interpretCard(cards, { signal: controller.signal })
-      .then((data) => {
-        setResults(data.interpretations || []);
-      })
-      .catch((err) => {
+    const getResults = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchInterpretation(selectedCards, controller.signal);
+        setAiInterpretations(data.interpretations || []);
+
+        await sendNotification("Interpretation received successfully", "success", 2);
+
+      } catch (err) {
         if (err.name !== "AbortError") {
-          setError(err.message);
+          console.error("ResultPage Error:", err);
+
+          await sendNotification("Failed to load interpretation", "error", 3);
         }
-      })
-      .finally(() => setLoading(false));
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    getResults();
     return () => controller.abort();
-  }, [cards]);
+  }, [selectedCards, navigate]);
 
-  if (!cards) return null;
+  const interpretationMap = useMemo(() => {
+    const map = new Map();
+    aiInterpretations.forEach((item) => map.set(item.card, item.text));
+    return map;
+  }, [aiInterpretations]);
+
+  if (!selectedCards) return null;
 
   return (
-    <div className="result-container">
+    <div className="result-page-wrapper">
       <Background />
 
-      {error && <p className="error-message">Помилка: {error}</p>}
+      <div className="result-content">
 
-      <div className="result-cards">
-        {cards.map((card, index) => (
-          <Card
-            key={index}
-            card={card}
-            interpretation={
-              loading
-                ? "Завантаження..."
-                : results[index]?.text || "Немає інтерпретації"
-            }
-          />
-        ))}
+        <div className="result-cards-row">
+          {selectedCards.map((card, index) => {
+            const textFromAi = interpretationMap.get(card.name);
+            const interpretation = textFromAi || card.meaning;
+
+            return (
+              <div key={card.id || index} className="card-column">
+                <div className="result-card-container">
+                  <img
+                    src={card.image}
+                    className="result-card-image"
+                    alt={card.name}
+                    onError={(e) => { e.target.src = "/cards/default.jpg"; }}
+                  />
+                </div>
+
+                <div className="card-text">
+                  {loading ? (
+                    <span className="skeleton-loader">Завантаження...</span>
+                  ) : (
+                    <p>{interpretation}</p>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="result-actions">
+          <button className="new-spread-btn" onClick={() => navigate("/")}>
+            Новий розклад
+          </button>
+        </div>
+
       </div>
-
-      <button onClick={() => navigate("/")}>Новий розклад</button>
     </div>
   );
 }

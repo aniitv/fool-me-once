@@ -1,4 +1,4 @@
-import { notificationS } from "./services/notificationS.js";
+import { notificationS } from "./src/services/notificationS.js";
 
 // Stars on background
 export function* starGenerator() {

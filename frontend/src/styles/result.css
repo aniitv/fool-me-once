@@ -1,50 +1,113 @@
-.result-container {
+.result-page-wrapper {
+  height: 100vh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
-  padding: 20px;
-
-  min-height: 100vh;
-  width: 100vw;
+  padding: 40px 20px 0;
+  font-family: 'Press Start 2P', cursive;
   box-sizing: border-box;
-  overflow-x: visible;
 }
-.result-cards {
+
+.result-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  width: 100%;
+  padding-bottom: 90px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.result-cards-row {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
+  gap: 90px;
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 20px;
 }
-.card-container {
-  width: 120px;
+
+.card-column {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 180px;
+  flex-shrink: 0;
+  min-width: 0;
+}
 
-  cursor: pointer;
+.result-card-container {
+  width: 180px;
+  height: 280px;
+  border: 3px solid #ffd700;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+  transition: transform 0.3s ease;
+  overflow: hidden;
 }
-.card-body {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  transform-style: preserve-3d;
+
+.result-card-container:hover {
+  transform: translateY(-10px);
 }
-.card-image {
+
+.result-card-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
-.card-title {
-  margin-top: 10px;
 
-  font-size: 12px;
+.card-text {
+  width: 180px;
+  max-width: 180px;
+  margin-top: 12px;
+  font-size: 8px;
+  line-height: 1.7;
   text-align: center;
+  color: goldenrod;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
 
-  color: #ffd700;
+.card-text p {
+  margin: 0;
+  width: 100%;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.result-actions {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-top: 40px;
+}
+
+.new-spread-btn {
   font-family: "Press Start 2P", cursive;
+  width: 130px;
+  height: 35px;
+  color: goldenrod;
+  font-size: 9px;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 18px;
+  border: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 3px 6px rgb(186, 144, 36);
+}
 
-  text-shadow: 0 0 6px rgba(255, 215, 0, 0.3);
+.new-spread-btn:hover {
+  transform: translateY(2px);
+  box-shadow: 0 3px 0px #b8860b;
+}
+
+.skeleton-loader {
+  color: #555;
+  font-size: 8px;
 }

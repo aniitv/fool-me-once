@@ -23,7 +23,6 @@ body {
 .controls {
   margin-bottom: 20px;
 }
-
 .deck {
   display: flex;
   flex-wrap: wrap;
@@ -33,7 +32,6 @@ body {
   max-width: none;
   margin: 0 auto;
 }
-
 .card-container {
   width: 120px;
   height: 200px;
@@ -41,16 +39,13 @@ body {
   cursor: pointer;
   transition: transform 0.3s ease;
 }
-
 .card-container:hover:not(.selected) {
   transform: translateY(-10px);
 }
-
 .card-container.selected {
   transform: scale(1.05);
   filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
 }
-
 .card-body {
   position: relative;
   width: 100%;
@@ -58,11 +53,9 @@ body {
   transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   transform-style: preserve-3d;
 }
-
 .card-container.flipped .card-body {
   transform: rotateY(180deg);
 }
-
 .card-back,
 .card-front {
   position: absolute;
@@ -73,26 +66,22 @@ body {
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
-
 .card-back {
   z-index: 2;
   transform: rotateY(0deg);
   border: 4px solid #333;
 }
-
 .card-front {
   background: white;
   transform: rotateY(180deg);
   border: 4px solid #ffd700;
 }
-
 .card-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
-
 .card-label {
   position: absolute;
   bottom: 0;
@@ -105,7 +94,6 @@ body {
   text-transform: uppercase;
   letter-spacing: 1px;
 }
-
 .shuffle-button {
   display: flex;
   justify-content: center;
@@ -122,14 +110,12 @@ body {
   cursor: pointer;
 
   background-color: transparent;
-
   background-image: url("../assets/bluebutton.png");
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
 
   border-radius: 18px;
-
   border: none;
   transition:
     transform 0.2s,
@@ -208,33 +194,28 @@ body {
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
   opacity: 1;
 }
-
 .history-list {
   display: flex;
   flex-direction: column;
   gap: 20px;
   padding: 20px;
 }
-
 .history-item {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
   padding: 15px;
   border: 1px solid #f39c12;
 }
-
 .history-images {
   display: flex;
   gap: 10px;
   margin-top: 10px;
 }
-
 .small-card-img {
   width: 60px;
   height: auto;
   border-radius: 4px;
 }
-
 .saved-archive {
   position: fixed;
   top: 50%;
@@ -252,28 +233,24 @@ body {
   color: white;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
 }
-
 .archive-grid {
   display: flex;
   flex-direction: column;
   gap: 15px;
   margin-top: 20px;
 }
-
 .archive-item {
   background: rgba(255, 255, 255, 0.1);
   padding: 10px;
   border-radius: 10px;
   border: 1px solid #444;
 }
-
 .archive-cards {
   display: flex;
   justify-content: center;
   gap: 10px;
   margin-top: 10px;
 }
-
 .archive-card-mini {
   width: 80px !important;
   height: 130px !important;
@@ -282,7 +259,6 @@ body {
   border: 2px solid #ffd700;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
-
 .close-btn {
   position: absolute;
   top: 10px;
