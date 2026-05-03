@@ -57,7 +57,6 @@ export class BiPriorityQueue {
 }
 
 const savedQueue = new BiPriorityQueue();
-
 router.post("/save", async (req, res) => {
   const { images, priority } = req.body;
   const controller = new AbortController();
@@ -67,7 +66,15 @@ router.post("/save", async (req, res) => {
       (img, signal) => validateAsync(img, signal),
       controller.signal,
     );
-    savedQueue.enqueue({ images: validatedImages }, priority || 1);
+    const priorityLevel = priority || 1;
+    savedQueue.enqueue({ images: validatedImages }, priorityLevel);
+
+    // Lab 7: Emit event
+    tracker.emit("cardSaved", {
+      priority: priorityLevel,
+      count: validatedImages.length,
+    });
+
     res.json({ message: "saved successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
