@@ -18,6 +18,16 @@ const validateAsync = (item, signal) => {
   });
 };
 
+async function* dataStreamGenerator(elements) {
+  for (const el of elements) {
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    yield {
+      ...el,
+      processedAt: new Date().toISOString(),
+    };
+  }
+}
+
 export class BiPriorityQueue {
   constructor() {
     this.elements = [];
