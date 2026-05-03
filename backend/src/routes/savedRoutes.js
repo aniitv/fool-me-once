@@ -1,5 +1,15 @@
 import express from "express";
+import { EventEmitter } from "events";
 const router = express.Router();
+const tracker = new EventEmitter();
+
+tracker.on("cardSaved", (data) => {
+  console.log(`[Logger] Priority: ${data.priority}`);
+});
+
+tracker.on("cardSaved", (data) => {
+  console.log(`[Analytics] Count: ${data.count}`);
+});
 
 const asyncFilter = async (array, predicate, signal) => {
   const results = await Promise.all(
@@ -57,7 +67,14 @@ router.post("/save", async (req, res) => {
       (img, signal) => validateAsync(img, signal),
       controller.signal,
     );
-    savedQueue.enqueue({ images: validatedImages }, priority || 1);
+    const priorityLevel = priority || 1;
+    savedQueue.enqueue({ images: validatedImages }, priorityLevel);
+
+    tracker.emit("cardSaved", {
+      priority: priorityLevel,
+      count: validatedImages.length,
+    });
+
     res.json({ message: "saved successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
