@@ -1,8 +1,14 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
+
 const mongoURI = process.env.MONGODB_URI;
+
+if (!mongoURI) {
+  console.error("MONGODB_URI не знайдено в .env файлі");
+}
+
 mongoose
   .connect(mongoURI)
   .then(() => {
@@ -24,6 +30,6 @@ const Loginschema = new mongoose.Schema({
   },
 });
 
-const collection = new mongoose.model("accounts", Loginschema);
+const collection = mongoose.model("accounts", Loginschema);
 
 export default collection;

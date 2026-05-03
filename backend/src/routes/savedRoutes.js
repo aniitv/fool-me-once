@@ -1,5 +1,15 @@
 import express from "express";
+import { EventEmitter } from "events";
 const router = express.Router();
+const tracker = new EventEmitter();
+
+tracker.on("cardSaved", (data) => {
+  console.log(`[Logger] Priority: ${data.priority}`);
+});
+
+tracker.on("cardSaved", (data) => {
+  console.log(`[Analytics] Count: ${data.count}`);
+});
 
 const asyncFilter = async (array, predicate, signal) => {
   const results = await Promise.all(
@@ -18,6 +28,13 @@ const validateAsync = (item, signal) => {
   });
 };
 
+async function* dataStreamGenerator(elements) {
+  for (const el of elements) {
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    yield { ...el, processedAt: new Date().toISOString() };
+  }
+}
+
 export class BiPriorityQueue {
   constructor() {
     this.elements = [];
@@ -26,9 +43,7 @@ export class BiPriorityQueue {
     const newNode = { item, priority, timestamp: Date.now() };
     this.elements.push(newNode);
     this.elements.sort((a, b) => b.priority - a.priority);
-    if (this.elements.length > 10) {
-      this.elements.pop();
-    }
+    if (this.elements.length > 10) this.elements.pop();
   }
   dequeue() {
     return this.elements.shift();
@@ -52,11 +67,27 @@ router.post("/save", async (req, res) => {
       (img, signal) => validateAsync(img, signal),
       controller.signal,
     );
-    savedQueue.enqueue({ images: validatedImages }, priority || 1);
+    const priorityLevel = priority || 1;
+    savedQueue.enqueue({ images: validatedImages }, priorityLevel);
+
+    tracker.emit("cardSaved", {
+      priority: priorityLevel,
+      count: validatedImages.length,
+    });
+
     res.json({ message: "saved successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+});
+
+router.get("/stream-data", async (req, res) => {
+  const stream = dataStreamGenerator(savedQueue.elements);
+  const processedData = [];
+  for await (const item of stream) {
+    processedData.push(item);
+  }
+  res.json({ status: "success", data: processedData });
 });
 
 router.get("/all", (req, res) => {
