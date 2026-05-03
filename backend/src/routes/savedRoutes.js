@@ -1,5 +1,15 @@
 import express from "express";
+import { EventEmitter } from "events";
 const router = express.Router();
+const tracker = new EventEmitter();
+
+tracker.on("cardSaved", (data) => {
+  console.log(`[Logger] Card saved with priority: ${data.priority}`);
+});
+
+tracker.on("cardSaved", (data) => {
+  console.log(`[Analytics] Items count: ${data.count}`);
+});
 
 const asyncFilter = async (array, predicate, signal) => {
   const results = await Promise.all(
