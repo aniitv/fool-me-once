@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { streamInterpretation } from "../services/streamInterpretation.js";
 import Background from "../components/Background";
 import "../styles/result.css";
 
@@ -45,29 +46,41 @@ export default function ResultPage() {
       return;
     }
 
-    const controller = new AbortController();
+    let active = true;
 
-    const getResults = async () => {
+    const loadStream = async () => {
       try {
         setLoading(true);
-        const data = await fetchInterpretation(selectedCards, controller.signal);
-        setAiInterpretations(data.interpretations || []);
 
-        await sendNotification("Interpretation received successfully", "success", 2);
+        for await (const chunk of streamInterpretation(selectedCards)) {
+          if (!active) break;
+
+          setAiInterpretations(prev => {
+            const existing = prev.find(c => c.card === chunk.card);
+
+            if (!existing) return [...prev, chunk];
+
+            return prev.map(c =>
+              c.card === chunk.card ? chunk : c
+            );
+          });
+        }
+
+        await sendNotification("Interpretation streamed successfully", "success", 2);
 
       } catch (err) {
-        if (err.name !== "AbortError") {
-          console.error("ResultPage Error:", err);
-
-          await sendNotification("Failed to load interpretation", "error", 3);
-        }
+        console.error("Streaming error:", err);
+        await sendNotification("Streaming failed", "error", 3);
       } finally {
         setLoading(false);
       }
     };
 
-    getResults();
-    return () => controller.abort();
+    loadStream();
+
+    return () => {
+      active = false;
+    };
   }, [selectedCards, navigate]);
 
   const interpretationMap = useMemo(() => {
@@ -87,7 +100,7 @@ export default function ResultPage() {
         <div className="result-cards-row">
           {selectedCards.map((card, index) => {
             const textFromAi = interpretationMap.get(card.name);
-            const interpretation = textFromAi || card.meaning;
+            const interpretation = textFromAi;
 
             return (
               <div key={card.id || index} className="card-column">
@@ -101,11 +114,11 @@ export default function ResultPage() {
                 </div>
 
                 <div className="card-text">
-                  {loading ? (
-                    <span className="skeleton-loader">Завантаження...</span>
-                  ) : (
-                    <p>{interpretation}</p>
-                  )}
+                  <p>
+                    {interpretation || (
+                      <span className="skeleton-loader">Генерується...</span>
+                    )}
+                  </p>
                 </div>
               </div>
             );

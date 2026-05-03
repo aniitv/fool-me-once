@@ -46,13 +46,13 @@ export async function interpretGeminiBatch(cards) {
     const jsonMatch = text.match(/\[[\s\S]*\]/);
     const cleanJson = jsonMatch ? jsonMatch[0] : text;
 
-    return JSON.parse(cleanJson);
+    return JSON.parse(cleanJson).filter((x) => x?.text);
   } catch (error) {
     console.warn("FALLBACK ACTIVATED:", error.message);
 
     return cards.map((c) => ({
       card: c.name,
-      text: c.reversed ? c.reversedMeaning : c.meaning,
+      text: `${c.meaning}. ${c.reversed}.`,
     }));
   }
 }
