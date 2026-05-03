@@ -2,12 +2,31 @@ import { authProxy } from "../proxy/authProxy.js";
 
 export async function interpretGeminiBatch(cards) {
   const prompt = `
-    You are a tarot card interpreter. 
-    Return ONLY a valid JSON array of objects with "card" and "text" keys.
-    Example: [{"card": "The Fool", "text": "Something..."}]
-    
-    Cards:
-    ${cards.map((c) => `${c.name} (reversed: ${c.reversed})`).join("\n")}
+  You are a tarot interpreter.
+
+  For EACH card:
+  - Use BOTH upright and reversed meanings
+  - Combine them into a single interpretation
+  - Write ONLY 2-3 short sentences
+
+  Return JSON array:
+  [
+    {
+      "card": "The Fool",
+      "text": "..."
+    }
+  ]
+
+  Cards:
+  ${cards
+    .map(
+      (c) => `
+  ${c.name}
+  Upright: ${c.meaning}
+  Reversed: ${c.reversed}
+  `,
+    )
+    .join("\n")}
   `;
 
   try {
