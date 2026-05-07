@@ -4,11 +4,11 @@ const router = express.Router();
 const tracker = new EventEmitter();
 
 tracker.on("cardSaved", (data) => {
-  console.log(`[Logger] Card saved with priority: ${data.priority}`);
+  console.log(`[Logger] Priority: ${data.priority}`);
 });
 
 tracker.on("cardSaved", (data) => {
-  console.log(`[Analytics] Items count: ${data.count}`);
+  console.log(`[Analytics] Count: ${data.count}`);
 });
 
 const asyncFilter = async (array, predicate, signal) => {
@@ -69,7 +69,6 @@ router.post("/save", async (req, res) => {
     const priorityLevel = priority || 1;
     savedQueue.enqueue({ images: validatedImages }, priorityLevel);
 
-    // Lab 7: Emit event
     tracker.emit("cardSaved", {
       priority: priorityLevel,
       count: validatedImages.length,
