@@ -57,7 +57,6 @@ export class BiPriorityQueue {
 }
 
 const savedQueue = new BiPriorityQueue();
-
 router.post("/save", async (req, res) => {
   const { images, priority } = req.body;
   const controller = new AbortController();
