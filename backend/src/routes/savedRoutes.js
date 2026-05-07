@@ -3,12 +3,10 @@ import { EventEmitter } from "events";
 const router = express.Router();
 const tracker = new EventEmitter();
 
-tracker.on("cardSaved", (data) => {
-  console.log(`[Logger] Priority: ${data.priority}`);
-});
-
-tracker.on("cardSaved", (data) => {
-  console.log(`[Analytics] Count: ${data.count}`);
+tracker.on("log", ({ level, message, details }) => {
+  const timestamp = new Date().toLocaleTimeString();
+  console.log(`[${timestamp}] [${level.toUpperCase()}] ${message}`);
+  if (details) console.dir(details);
 });
 
 const asyncFilter = async (array, predicate, signal) => {
@@ -45,18 +43,13 @@ export class BiPriorityQueue {
     this.elements.sort((a, b) => b.priority - a.priority);
     if (this.elements.length > 10) this.elements.pop();
   }
-  dequeue() {
-    return this.elements.shift();
-  }
   isEmpty() {
     return this.elements.length === 0;
-  }
-  peek() {
-    return this.elements[0];
   }
 }
 
 const savedQueue = new BiPriorityQueue();
+
 router.post("/save", async (req, res) => {
   const { images, priority } = req.body;
   const controller = new AbortController();
@@ -69,13 +62,18 @@ router.post("/save", async (req, res) => {
     const priorityLevel = priority || 1;
     savedQueue.enqueue({ images: validatedImages }, priorityLevel);
 
-    tracker.emit("cardSaved", {
-      priority: priorityLevel,
-      count: validatedImages.length,
+    tracker.emit("log", {
+      level: "info",
+      message: "Card successfully saved to queue",
+      details: { priority: priorityLevel, itemsCount: validatedImages.length },
     });
 
     res.json({ message: "saved successfully" });
   } catch (err) {
+    tracker.emit("log", {
+      level: "error",
+      message: `Save failed: ${err.message}`,
+    });
     res.status(500).json({ error: err.message });
   }
 });
