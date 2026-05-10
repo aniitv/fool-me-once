@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
+dotenv.config();
 import collection from "./config.js";
 import mongoose from "mongoose";
 import { memoize } from "./memoize.js";
@@ -9,7 +10,6 @@ import aiRouter from "./routes/ai.js";
 import notificationRouter from "./routes/notification.js";
 import savedRoutes from "./routes/savedRoutes.js";
 
-dotenv.config();
 const app = express();
 app.use(
   cors({
