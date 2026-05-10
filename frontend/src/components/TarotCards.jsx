@@ -91,7 +91,7 @@ export default function TarotCards() {
 
     const isReversed = Math.random() < 0.5;
 
-    setSelectedCards((prev) => [...prev, { ...card, reversed: isReversed }]);
+    setSelectedCards((prev) => [...prev, { ...card, isReversed }]);
   };
 
   const iterateTimeout = (iterator, timeout, onValue) => {

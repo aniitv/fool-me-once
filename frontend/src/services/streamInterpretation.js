@@ -11,17 +11,17 @@ export async function* streamInterpretation(cards) {
     });
 
     if (!response.ok) {
-      throw new Error("Failed to fetch AI interpretation");
+      throw new Error("API error");
     }
 
     data = await response.json();
   } catch (error) {
-    console.warn("STREAM FALLBACK ACTIVATED:", error.message);
+    console.warn("STREAM FALLBACK:", error.message);
 
     data = {
       interpretations: cards.map((c) => ({
         card: c.name,
-        text: `${c.meaning}. In reverse: ${c.reversed}.`,
+        text: `Upright Meaning: ${c.meaning}. Reversed Meaning: ${c.reversed}.`.trim(),
       })),
     };
   }
@@ -39,7 +39,7 @@ export async function* streamInterpretation(cards) {
       partial += word + " ";
 
       yield {
-        card: item.card || "Unknown card",
+        card: item.card,
         text: partial.trim(),
       };
       await new Promise((r) => setTimeout(r, 40));

@@ -26,7 +26,7 @@ async function fetchInterpretation(cards, signal) {
 
   if (!response.ok) {
     const errData = await response.json().catch(() => ({}));
-    throw new Error(errData.error || "Помилка сервера при отриманні тлумачення");
+    throw new Error(errData.error || "API error");
   }
 
   return await response.json();
@@ -85,7 +85,11 @@ export default function ResultPage() {
 
   const interpretationMap = useMemo(() => {
     const map = new Map();
-    aiInterpretations.forEach((item) => map.set(item.card, item.text));
+    aiInterpretations.forEach((item) => {
+      if (!item?.card) return;
+
+      map.set(item.card.trim(), item.text);
+    });
     return map;
   }, [aiInterpretations]);
 
@@ -99,15 +103,18 @@ export default function ResultPage() {
 
         <div className="result-cards-row">
           {selectedCards.map((card, index) => {
-            const textFromAi = interpretationMap.get(card.name);
-            const interpretation = textFromAi;
+            const textFromAi = interpretationMap.get(card.name.trim());
+            const fallBackText = `Upright Meaning: ${card.meaning}. Reversed Meaning: ${card.reversed}.`.trim();
+            const interpretation = textFromAi && textFromAi !== "Generating..." ? textFromAi : fallBackText;
 
+            const timePositions = ["Past", "Present", "Future"];
             return (
               <div key={card.id || index} className="card-column">
+              <h2 className="time-label">{timePositions[index]}</h2>
                 <div className="result-card-container">
                   <img
                     src={card.image}
-                    className="result-card-image"
+                    className={`result-card-image ${card.isReversed ? "reversed" : ""}`}
                     alt={card.name}
                     onError={(e) => { e.target.src = "/cards/default.jpg"; }}
                   />
@@ -115,8 +122,10 @@ export default function ResultPage() {
 
                 <div className="card-text">
                   <p>
-                    {interpretation || (
-                      <span className="skeleton-loader">Генерується...</span>
+                    {loading && !textFromAi ? (
+                      <span className="skeleton-loader">Loading...</span>
+                    ) : (
+                      interpretation
                     )}
                   </p>
                 </div>
@@ -127,7 +136,7 @@ export default function ResultPage() {
 
         <div className="result-actions">
           <button className="new-spread-btn" onClick={() => navigate("/")}>
-            Новий розклад
+            New Spread
           </button>
         </div>
 
