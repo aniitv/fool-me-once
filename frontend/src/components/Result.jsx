@@ -104,8 +104,12 @@ export default function ResultPage() {
         <div className="result-cards-row">
           {selectedCards.map((card, index) => {
             const textFromAi = interpretationMap.get(card.name.trim());
-            const fallBackText = `Upright Meaning: ${card.meaning}. Reversed Meaning: ${card.reversed}.`.trim();
-            const interpretation = textFromAi && textFromAi !== "Generating..." ? textFromAi : fallBackText;
+            const interpretation = textFromAi && textFromAi !== "Generating..." 
+              ? { raw: textFromAi }
+              : { 
+                upright: card.meaning, 
+                reversed: card.reversed 
+              };
 
             const timePositions = ["Past", "Present", "Future"];
             return (
@@ -121,13 +125,23 @@ export default function ResultPage() {
                 </div>
 
                 <div className="card-text">
-                  <p>
-                    {loading && !textFromAi ? (
-                      <span className="skeleton-loader">Loading...</span>
-                    ) : (
-                      interpretation
-                    )}
-                  </p>
+                  {loading && !textFromAi ? (
+                    <span className="skeleton-loader">Loading...</span>
+                  ) : interpretation.raw ? (
+                    <p>{interpretation.raw}</p>
+                  ) : (
+                    <>
+                      <p><strong>Upright:</strong>
+                      <br />
+                       {interpretation.upright}
+                      </p>
+
+                      <p><strong>Reversed:</strong>
+                      <br />
+                       {interpretation.reversed}
+                      </p>
+                    </>
+                  )}
                 </div>
               </div>
             );

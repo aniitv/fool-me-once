@@ -72,11 +72,16 @@
   word-break: break-word;
   overflow-wrap: break-word;
   white-space: normal;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .card-text p {
   margin: 0;
   width: 100%;
+  line-height: 1.6;
   word-break: break-word;
   overflow-wrap: break-word;
 }
