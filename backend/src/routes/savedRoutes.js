@@ -32,22 +32,30 @@ async function* dataStreamGenerator(elements) {
     yield { ...el, processedAt: new Date().toISOString() };
   }
 }
-
 export class BiPriorityQueue {
   constructor() {
     this.elements = [];
   }
+
   enqueue(item, priority) {
     const newNode = { item, priority, timestamp: Date.now() };
-    this.elements.push(newNode);
-    this.elements.sort((a, b) => b.priority - a.priority);
-    if (this.elements.length > 10) this.elements.pop();
+    const index = this.elements.findIndex((el) => el.priority < priority);
+
+    if (index === -1) {
+      this.elements.push(newNode);
+    } else {
+      this.elements.splice(index, 0, newNode);
+    }
+
+    if (this.elements.length > 10) {
+      this.elements.pop();
+    }
   }
+
   isEmpty() {
     return this.elements.length === 0;
   }
 }
-
 const savedQueue = new BiPriorityQueue();
 
 router.post("/save", async (req, res) => {
