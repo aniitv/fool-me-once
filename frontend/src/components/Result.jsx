@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { streamInterpretation } from "../services/streamInterpretation.js";
 import Background from "../components/Background";
@@ -35,6 +35,7 @@ async function fetchInterpretation(cards, signal) {
 export default function ResultPage() {
   const location = useLocation();
   const navigate = useNavigate();
+  const notificationSent = useRef(false);
   const selectedCards = location.state?.cards;
 
   const [aiInterpretations, setAiInterpretations] = useState([]);
@@ -66,7 +67,11 @@ export default function ResultPage() {
           });
         }
 
-        await sendNotification("Interpretation streamed successfully", "success", 2);
+        if (!notificationSent.current) {
+          notificationSent.current = true;
+
+          await sendNotification("Interpretation streamed successfully", "success", 2);
+        }
 
       } catch (err) {
         console.error("Streaming error:", err);

@@ -89,6 +89,9 @@ export default function TarotCards() {
 
     if (selectedCards.length === 3) return;
 
+    const alreadySelected = selectedCards.some((c) => c.id === card.id);
+    if (alreadySelected) return;
+
     const isReversed = Math.random() < 0.5;
 
     setSelectedCards((prev) => [...prev, { ...card, isReversed }]);

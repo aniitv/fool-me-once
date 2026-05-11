@@ -7,6 +7,11 @@ class NotificationService {
   add(message, type = "info", priority = 1) {
     if (!message) return null;
 
+    const existing = this.queue.some(
+      (n) => n.message === message && n.type === type,
+    );
+    if (existing) return null;
+
     const notification = { id: Date.now(), message, type, priority };
 
     this.queue.push(notification);
