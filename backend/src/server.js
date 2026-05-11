@@ -2,15 +2,16 @@ import express from "express";
 import cors from "cors";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
-dotenv.config();
 import collection from "./config.js";
-import mongoose from "mongoose";
 import { memoize } from "./memoize.js";
 import aiRouter from "./routes/ai.js";
 import notificationRouter from "./routes/notification.js";
 import savedRoutes from "./routes/savedRoutes.js";
 
+dotenv.config();
+
 const app = express();
+
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -18,10 +19,11 @@ app.use(
     credentials: true,
   }),
 );
-app.use(express.json(), express.urlencoded({ extended: false }));
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 const checkPassword = (password) => {
-  console.log("calculating...");
   return password.length < 8 ? "Weak" : "Strong";
 };
 
@@ -29,16 +31,21 @@ const memoCheck = memoize(checkPassword, 10);
 
 app.use("/api/ai", aiRouter);
 app.use("/notification", notificationRouter);
+app.use("/api/saved", savedRoutes);
 
 app.post("/signup", async (req, res) => {
   const { username: name, password } = req.body;
-  const strength = memoCheck(req.body.password);
-  console.log("Password strength:", strength);
+
+  if (!name || !password) {
+    return res.status(400).send("Username and password are required");
+  }
+
+  const strength = memoCheck(password);
+
   try {
-    if (await collection.findOne({ name })) {
-      return res.send(
-        "User already exists. Please choose a different username.",
-      );
+    const existingUser = await collection.findOne({ name });
+    if (existingUser) {
+      return res.status(400).send("User already exists.");
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -47,8 +54,9 @@ app.post("/signup", async (req, res) => {
       password: hashedPassword,
     });
 
-    console.log("Created:", userdata);
-    res.send("You succesfully created a new account, try to log in");
+    res
+      .status(201)
+      .send("You successfully created a new account, try to log in");
   } catch (e) {
     res.status(500).send("Signup error");
   }
@@ -69,5 +77,5 @@ app.post("/signin", async (req, res) => {
     res.status(500).send("Signin error");
   }
 });
-app.use("/api/saved", savedRoutes);
+
 app.listen(5000, () => console.log("Server running on port 5000"));
