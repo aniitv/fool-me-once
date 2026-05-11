@@ -6,3 +6,61 @@ body {
   overflow: hidden;
   height: 100vh;
 }
+.main-nav {
+  display: flex;
+  gap: 60px; /* Ось цей відступ, який ти просила */
+  padding: 30px 50px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: transparent;
+}
+
+.nav-item {
+  color: #9d50bb;
+  text-decoration: none;
+  font-family: "Press Start 2P", cursive;
+  font-size: 12px; /* Дрібніший шрифт для навігації */
+  text-transform: uppercase;
+  transition: 0.3s;
+}
+
+.nav-item:hover {
+  color: white;
+  text-shadow: 0 0 10px #9d50bb;
+}
+/* Навігаційна панель */
+.navbar {
+  display: flex;
+  gap: 50px; /* Відступ між "Main page" та "Notifications" */
+  padding: 20px 40px;
+  background-color: #030d33;
+  position: fixed; /* Фіксуємо зверху */
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+/* Стиль посилань */
+.nav-link {
+  color: #9d50bb;
+  text-decoration: none;
+  font-family: "Press Start 2P", cursive;
+  font-size: 14px;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: white;
+}
+
+/* Контейнер для сторінок */
+.page-content {
+  padding-top: 80px; /* Цей відступ не дає тексту наповзати на навігацію */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}

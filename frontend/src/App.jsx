@@ -5,32 +5,33 @@ import Signup from "./components/Signup.jsx";
 import NotificationsPage from "./components/Notification.jsx";
 import TarotCards from "./components/TarotCards.jsx";
 import Result from "./components/Result.jsx";
-import Background from "./components/Background.jsx";
-// import Card from "./components/Card.jsx";
-import Home from "./components/Home";
+import MainPage from "./components/MainPage.jsx";
+
 function App() {
   return (
     <BrowserRouter>
-      <nav style={{ padding: "20px", background: "#030d33" }}>
-        <Link to="/" style={{ marginRight: "50px" }}>
+      <nav className="navbar">
+        <Link to="/mainpage" className="nav-link">
           Main page
         </Link>
-        <Link to="/signin" style={{ marginRight: "50px" }}>
-          Signin
-        </Link>
-        <Link to="/notifications" style={{ marginRight: "50px" }}>
+        <Link to="/notifications" className="nav-link">
           Notifications
         </Link>
       </nav>
 
-      <Routes>
-        <Route path="/" element={<TarotCards />} />
-        <Route path="/signin" element={<Signin />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/result" element={<Result />} />
-        <Route path="/notifications" element={<NotificationsPage />} />
-      </Routes>
+      <div className="page-content">
+        <Routes>
+          <Route path="/" element={<TarotCards />} />
+          <Route path="/cards" element={<TarotCards />} />
+          <Route path="/signin" element={<Signin />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/mainpage" element={<MainPage />} />
+          <Route path="/result" element={<Result />} />
+          <Route path="/notifications" element={<NotificationsPage />} />
+        </Routes>
+      </div>
     </BrowserRouter>
   );
 }
+
 export default App;

@@ -1,0 +1,120 @@
+.main-page-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  padding: 80px 20px 20px 20px;
+  position: relative;
+  text-align: center;
+}
+
+.hero-section {
+  max-width: 650px;
+  z-index: 2;
+}
+
+.hero-section h1 {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  font-family: "Press Start 2P", cursive;
+}
+
+.highlight {
+  color: #9d50bb;
+  text-shadow: 0 0 10px rgba(157, 80, 187, 0.5);
+}
+
+.project-intro {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #aaa;
+}
+
+.preview-cards {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin: 20px 0;
+  z-index: 2;
+}
+
+.preview-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(8px);
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(157, 80, 187, 0.2);
+  width: 140px;
+}
+
+.card-image-wrapper {
+  width: 100%;
+  aspect-ratio: 2/3;
+  overflow: hidden;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+.card-preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.preview-card h3 {
+  font-size: 0.75rem;
+  color: #9d50bb;
+  font-family: "Press Start 2P", cursive;
+  margin-bottom: 5px;
+}
+
+.preview-card p {
+  font-size: 0.6rem;
+  color: #888;
+}
+
+.cta-section {
+  z-index: 2;
+}
+
+.cta-section p {
+  font-size: 0.8rem;
+  color: #ccc;
+  margin-top: 5px;
+}
+
+.cta-links {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.cta-button {
+  padding: 10px 25px;
+  background: #9d50bb;
+  color: white;
+  text-decoration: none;
+  font-size: 0.75rem;
+  border-radius: 5px;
+  font-family: "Press Start 2P", cursive;
+}
+
+.cta-button.secondary {
+  background: transparent;
+  border: 1px solid #9d50bb;
+}
+
+.authors-footer {
+  font-size: 0.65rem;
+  color: #555;
+  z-index: 2;
+  width: 100%;
+}
+
+.author-names {
+  color: #9d50bb;
+  margin-top: 4px;
+}
