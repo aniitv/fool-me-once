@@ -61,12 +61,10 @@ npm install
 
 3. Start the React application:
 
-````bash
+```bash
     npm run dev
-    ```
+
     *The website should automatically open at `http://localhost:5173/`.*
 
----
 
-
-````
+```
