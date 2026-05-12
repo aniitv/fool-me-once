@@ -64,7 +64,8 @@ npm install
 ```bash
     npm run dev
 
-    *The website should automatically open at `http://localhost:5173/`.*
-
-
 ```
+
+_The website should automatically open at `http://localhost:5173/`._
+
+---
