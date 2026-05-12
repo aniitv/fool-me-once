@@ -1,5 +1,6 @@
 import express from "express";
 import { EventEmitter } from "events";
+
 const router = express.Router();
 const tracker = new EventEmitter();
 
@@ -9,21 +10,8 @@ tracker.on("log", ({ level, message, details }) => {
   if (details) console.dir(details);
 });
 
-const asyncFilter = async (array, predicate, signal) => {
-  const results = await Promise.all(
-    array.map((item) => predicate(item, signal)),
-  );
-  return array.filter((_, index) => results[index]);
-};
-
-const validateAsync = (item, signal) => {
-  return new Promise((resolve, reject) => {
-    const timeout = setTimeout(() => resolve(true), 200);
-    signal?.addEventListener("abort", () => {
-      clearTimeout(timeout);
-      reject(new Error("Aborted"));
-    });
-  });
+const validateAsync = (item) => {
+  return new Promise((resolve) => setTimeout(() => resolve(true), 200));
 };
 
 async function* dataStreamGenerator(elements) {
@@ -32,13 +20,14 @@ async function* dataStreamGenerator(elements) {
     yield { ...el, processedAt: new Date().toISOString() };
   }
 }
+
 export class BiPriorityQueue {
   constructor() {
     this.elements = [];
   }
 
   enqueue(item, priority) {
-    const newNode = { item, priority, timestamp: Date.now() };
+    const newNode = { item, priority };
     const index = this.elements.findIndex((el) => el.priority < priority);
 
     if (index === -1) {
@@ -51,22 +40,19 @@ export class BiPriorityQueue {
       this.elements.pop();
     }
   }
-
-  isEmpty() {
-    return this.elements.length === 0;
-  }
 }
+
 const savedQueue = new BiPriorityQueue();
 
 router.post("/save", async (req, res) => {
   const { images, priority } = req.body;
-  const controller = new AbortController();
+
   try {
-    const validatedImages = await asyncFilter(
-      images || [],
-      (img, signal) => validateAsync(img, signal),
-      controller.signal,
+    const results = await Promise.all(
+      (images || []).map((img) => validateAsync(img)),
     );
+    const validatedImages = (images || []).filter((_, i) => results[i]);
+
     const priorityLevel = priority || 1;
     savedQueue.enqueue({ images: validatedImages }, priorityLevel);
 
@@ -89,14 +75,16 @@ router.post("/save", async (req, res) => {
 router.get("/stream-data", async (req, res) => {
   const stream = dataStreamGenerator(savedQueue.elements);
   const processedData = [];
+
   for await (const item of stream) {
     processedData.push(item);
   }
+
   res.json({ status: "success", data: processedData });
 });
 
 router.get("/all", (req, res) => {
-  res.json(savedQueue.elements || []);
+  res.json(savedQueue.elements);
 });
 
 export default router;
