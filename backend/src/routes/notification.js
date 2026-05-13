@@ -3,6 +3,22 @@ import { notificationS } from "../services/notificationS.js";
 
 const router = express.Router();
 
+router.get("/subscribe", (req, res) => {
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("Connection", "keep-alive");
+
+  const onNotification = (notification) => {
+    res.write(`data: ${JSON.stringify(notification)}\n\n`);
+  };
+
+  notificationS.emitter.on("new_notification", onNotification);
+
+  req.on("close", () => {
+    notificationS.emitter.off("new_notification", onNotification);
+  });
+});
+
 router.get("/", (req, res) => {
   res.json(notificationS.getAll());
 });
@@ -31,7 +47,6 @@ router.post("/", (req, res) => {
 
 router.delete("/", (req, res) => {
   const removed = notificationS.remove();
-
   res.json(removed);
 });
 
