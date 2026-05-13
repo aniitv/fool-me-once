@@ -16,3 +16,18 @@ function log(level, message, data) {
   console.log(`[${timestamp}] [${level}] ${message}`);
   if (data !== undefined) console.dir(data);
 }
+
+export function withLogging(fn, level = "INFO") {
+  return function (...args) {
+    log(level, `Calling "${fn.name}" with args:`, args);
+
+    try {
+      const result = fn.apply(this, args);
+      log(level, `"${fn.name}" returned:`, result);
+      return result;
+    } catch (err) {
+      log("ERROR", `"${fn.name}" threw an error: ${err.message}`);
+      throw err;
+    }
+  };
+}
