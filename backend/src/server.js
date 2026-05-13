@@ -7,6 +7,7 @@ import { memoize } from "./memoize.js";
 import aiRouter from "./routes/ai.js";
 import notificationRouter from "./routes/notification.js";
 import savedRoutes from "./routes/savedRoutes.js";
+import cardsRouter from "./routes/cards.js";
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ const memoCheck = memoize(checkPassword, 10);
 app.use("/api/ai", aiRouter);
 app.use("/notification", notificationRouter);
 app.use("/api/saved", savedRoutes);
+app.use("/api/cards", cardsRouter);
 
 app.post("/signup", async (req, res) => {
   const { username: name, password } = req.body;

@@ -5,31 +5,29 @@ import "../styles/notification.css";
 function NotificationsPage() {
   const [notifications, setNotifications] = useState([]);
 
-  const fetchNotifications = () => {
-    fetch("http://localhost:5000/notification")
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Failed to fetch notifications");
-        }
-        return res.json();
-      })
-      .then((data) => setNotifications(data))
-      .catch((err) => {
-        console.error(err);
-        setNotifications([]);
-      });
-  };
-
   useEffect(() => {
-    fetchNotifications();
+    fetch("http://localhost:5000/notification")
+      .then((res) => res.json())
+      .then((data) => setNotifications(data))
+      .catch((err) => console.error(err));
 
-      const interval = setInterval(fetchNotifications, 5000);
-      return () => clearInterval(interval);
+    const source = new EventSource(
+      "http://localhost:5000/notification/subscribe",
+    );
+
+    source.onmessage = (event) => {
+      const notification = JSON.parse(event.data);
+      setNotifications((prev) => [...prev, notification]);
+    };
+
+    source.onerror = () => source.close();
+
+    return () => source.close();
   }, []);
-    
+
   return (
     <div style={{ padding: "20px" }}>
-        <Background />
+      <Background />
 
       {notifications.length === 0 ? (
         <p>No notifications</p>
@@ -38,7 +36,7 @@ function NotificationsPage() {
           .slice()
           .reverse()
           .map((n) => (
-            <div key={n.id} className ={`notification ${n.type}`}>
+            <div key={n.id} className={`notification ${n.type}`}>
               {n.message}
             </div>
           ))
