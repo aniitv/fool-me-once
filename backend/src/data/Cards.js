@@ -2,7 +2,7 @@ export const CardList = [
   {
     id: 0,
     name: "The Fool",
-    color: "#F5D97A",
+
     image: "/cards/Fool.jpg",
     meaning: "New beginnings, spontaneity, a leap of faith...",
     reversed: "Recklessness, risk-taking without awareness...",
@@ -10,7 +10,7 @@ export const CardList = [
   {
     id: 1,
     name: "The Magician",
-    color: "#C9A227",
+
     image: "/cards/Magician.jpg",
     meaning: "Manifestation, resourcefulness, power...",
     reversed: "Manipulation, trickery, unused potential",
@@ -18,7 +18,7 @@ export const CardList = [
   {
     id: 2,
     name: "The High Priestess",
-    color: "#7C3AED",
+
     image: "/cards/Priestess.jpg",
     meaning: "Intuition, sacred knowledge, divine feminine...",
     reversed: "Hidden agendas, ignoring intuition...",

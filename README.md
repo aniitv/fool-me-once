@@ -62,7 +62,7 @@ npm install
 3. Start the React application:
 
 ```bash
-    npm run dev
+npm run dev
 
 ```
 
