@@ -1,7 +1,10 @@
+import { EventEmitter } from "events";
+
 class NotificationService {
   constructor(limit = 100) {
     this.queue = [];
     this.limit = limit;
+    this.emitter = new EventEmitter();
   }
 
   add(message, type = "info", priority = 1) {
@@ -19,6 +22,8 @@ class NotificationService {
     if (this.queue.length > this.limit) {
       this.queue.shift();
     }
+
+    this.emitter.emit("new_notification", notification);
 
     return notification;
   }
