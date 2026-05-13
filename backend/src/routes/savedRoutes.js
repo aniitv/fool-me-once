@@ -1,25 +1,10 @@
 import express from "express";
-import { EventEmitter } from "events";
+import { asyncFilterPromise } from "./asyncArray.js";
+import { withLogging, setLogLevel } from "../utils/logger.js";
 
 const router = express.Router();
-const tracker = new EventEmitter();
 
-tracker.on("log", ({ level, message, details }) => {
-  const timestamp = new Date().toLocaleTimeString();
-  console.log(`[${timestamp}] [${level.toUpperCase()}] ${message}`);
-  if (details) console.dir(details);
-});
-
-const validateAsync = (item) => {
-  return new Promise((resolve) => setTimeout(() => resolve(true), 200));
-};
-
-async function* dataStreamGenerator(elements) {
-  for (const el of elements) {
-    await new Promise((resolve) => setTimeout(resolve, 50));
-    yield { ...el, processedAt: new Date().toISOString() };
-  }
-}
+setLogLevel("INFO");
 
 export class BiPriorityQueue {
   constructor() {
@@ -44,43 +29,22 @@ export class BiPriorityQueue {
 
 const savedQueue = new BiPriorityQueue();
 
+savedQueue.enqueue = withLogging(savedQueue.enqueue.bind(savedQueue), "INFO");
+
 router.post("/save", async (req, res) => {
   const { images, priority } = req.body;
 
   try {
-    const results = await Promise.all(
-      (images || []).map((img) => validateAsync(img)),
+    const validImages = await asyncFilterPromise(images || [], (img) =>
+      Promise.resolve(typeof img === "string" && img.trim() !== ""),
     );
-    const validatedImages = (images || []).filter((_, i) => results[i]);
 
     const priorityLevel = priority || 1;
-    savedQueue.enqueue({ images: validatedImages }, priorityLevel);
-
-    tracker.emit("log", {
-      level: "info",
-      message: "Card successfully saved to queue",
-      details: { priority: priorityLevel, itemsCount: validatedImages.length },
-    });
-
+    savedQueue.enqueue({ images: validImages }, priorityLevel);
     res.json({ message: "saved successfully" });
   } catch (err) {
-    tracker.emit("log", {
-      level: "error",
-      message: `Save failed: ${err.message}`,
-    });
     res.status(500).json({ error: err.message });
   }
-});
-
-router.get("/stream-data", async (req, res) => {
-  const stream = dataStreamGenerator(savedQueue.elements);
-  const processedData = [];
-
-  for await (const item of stream) {
-    processedData.push(item);
-  }
-
-  res.json({ status: "success", data: processedData });
 });
 
 router.get("/all", (req, res) => {

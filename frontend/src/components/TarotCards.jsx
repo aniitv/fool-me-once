@@ -16,7 +16,7 @@ export default function TarotCards() {
   const [flippedCards, setFlippedCards] = useState([]);
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
   const [showRevealButton, setShowRevealButton] = useState(true);
-  
+
   const navigate = useNavigate();
 
   // const [interpretation, setInterpretation] = useState("");
@@ -31,7 +31,7 @@ export default function TarotCards() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           images: selectedCards.map((c) => c.image),
-          priority: Math.floor(Math.random() * 5) + 1,
+          priority: selectedCards.filter((c) => c.isReversed).length + 1,
         }),
       });
       alert("cards were saved");
@@ -76,11 +76,14 @@ export default function TarotCards() {
       await fetch("http://localhost:5000/notification", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: "Deck shuffled", type: "info", priority: 2 })
+        body: JSON.stringify({
+          message: "Deck shuffled",
+          type: "info",
+          priority: 2,
+        }),
       });
     } catch (error) {
       console.error("Error occurred while fetching notifications:", error);
-
     }
   };
 
@@ -122,11 +125,15 @@ export default function TarotCards() {
       setFlippedCards((prev) => [...prev, card.id]);
     });
 
-    try{
+    try {
       await fetch("http://localhost:5000/notification", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: "Cards revealed", type: "success", priority: 2 })
+        body: JSON.stringify({
+          message: "Cards revealed",
+          type: "success",
+          priority: 2,
+        }),
       });
     } catch (error) {
       console.error("Error occurred while fetching notifications:", error);
@@ -152,7 +159,7 @@ export default function TarotCards() {
           </button>
         )}
 
-        <div className= "button-row">
+        <div className="button-row">
           {flippedCards.length === 3 && (
             <button className="save-button" onClick={handleSaveImages}>
               Save сards
@@ -160,7 +167,12 @@ export default function TarotCards() {
           )}
 
           {flippedCards.length === 3 && (
-            <button className="result-button" onClick={() => navigate("/result", { state: { cards: selectedCards } })}>
+            <button
+              className="result-button"
+              onClick={() =>
+                navigate("/result", { state: { cards: selectedCards } })
+              }
+            >
               View Result
             </button>
           )}
