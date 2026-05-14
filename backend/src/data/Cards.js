@@ -2,7 +2,6 @@ export const CardList = [
   {
     id: 0,
     name: "The Fool",
-
     image: "/cards/Fool.jpg",
     meaning: "New beginnings, spontaneity, a leap of faith...",
     reversed: "Recklessness, risk-taking without awareness...",
@@ -10,7 +9,6 @@ export const CardList = [
   {
     id: 1,
     name: "The Magician",
-
     image: "/cards/Magician.jpg",
     meaning: "Manifestation, resourcefulness, power...",
     reversed: "Manipulation, trickery, unused potential",
@@ -18,7 +16,6 @@ export const CardList = [
   {
     id: 2,
     name: "The High Priestess",
-
     image: "/cards/Priestess.jpg",
     meaning: "Intuition, sacred knowledge, divine feminine...",
     reversed: "Hidden agendas, ignoring intuition...",
@@ -26,7 +23,6 @@ export const CardList = [
   {
     id: 3,
     name: "The Empress",
-    color: "#FFF7ED",
     image: "/cards/Empress.jpg",
     meaning: "Feminine power, beauty, nature, abundance...",
     reversed: "Creative block, neglect, smothering love",
@@ -34,7 +30,6 @@ export const CardList = [
   {
     id: 4,
     name: "The Emperor",
-    color: "#374151",
     image: "/cards/Emperor.jpg",
     meaning: "Authority, structure, solid foundation...",
     reversed: "Tyranny, rigidity, excessive control",
@@ -42,7 +37,6 @@ export const CardList = [
   {
     id: 5,
     name: "The Hierophant",
-    color: "#FDF5E6",
     image: "/cards/Hierophant.jpg",
     meaning: "Tradition, spiritual wisdom, conformity...",
     reversed: "Rebellion, unorthodox approaches...",
@@ -50,7 +44,6 @@ export const CardList = [
   {
     id: 6,
     name: "The Lovers",
-    color: "#9CA3AF",
     image: "/cards/Lovers.jpg",
     meaning: "Love, harmony, relationships, choices...",
     reversed: "Imbalance, misalignment, disharmony",
@@ -58,7 +51,6 @@ export const CardList = [
   {
     id: 7,
     name: "The Chariot",
-    color: "#2D4F4F",
     image: "/cards/Chariot.jpg",
     meaning: "Control, willpower, victory, determination...",
     reversed: "Lack of direction, aggression, no control",
@@ -66,7 +58,6 @@ export const CardList = [
   {
     id: 8,
     name: "Strength",
-    color: "#3C096C",
     image: "/cards/Strength.jpg",
     meaning: "Inner strength, courage, patience, compassion...",
     reversed: "Self-doubt, weakness, insecurity",
@@ -74,7 +65,6 @@ export const CardList = [
   {
     id: 9,
     name: "The Hermit",
-    color: "#064E3B",
     image: "/cards/Hermit.jpg",
     meaning: "Soul-searching, introspection, spiritual guidance...",
     reversed: "Isolation, loneliness, withdrawal from society",
@@ -82,7 +72,6 @@ export const CardList = [
   {
     id: 10,
     name: "Wheel of Fortune",
-    color: "#795548",
     image: "/cards/Fortune.jpg",
     meaning: "Cycles, fate, turning points, luck...",
     reversed: "Bad luck, resistance to change...",
@@ -90,7 +79,6 @@ export const CardList = [
   {
     id: 11,
     name: "Justice",
-    color: "#3f51b5",
     image: "/cards/Justice.jpg",
     meaning: "Fairness, truth, cause and effect...",
     reversed: "Unfairness, dishonesty, lack of accountability",
@@ -98,7 +86,6 @@ export const CardList = [
   {
     id: 12,
     name: "The Hanged Man",
-    color: "#C9A227",
     image: "/cards/Hanged.jpg",
     meaning: "Surrender, new perspective, spiritual enlightenment...",
     reversed: "Delays, resistance, stalling",

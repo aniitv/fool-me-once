@@ -269,3 +269,94 @@ body {
   font-size: 24px;
   cursor: pointer;
 }
+/* Контейнер архіву */
+.saved-archive {
+  padding: 20px;
+  background: rgba(20, 10, 35, 0.95); /* Глибокий фіолетовий/чорний */
+  border-radius: 15px;
+  color: #e0d5ff;
+  max-width: 800px;
+  margin: 20px auto;
+  border: 1px solid #5d2a8e;
+}
+
+/* Заголовок та кнопка закриття */
+.saved-archive h2 {
+  text-align: center;
+  color: #f1c40f; /* Золотий */
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.close-btn {
+  float: right;
+  background: none;
+  border: none;
+  color: #ff4d4d;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Сітка карток */
+.archive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Елемент архіву */
+.archive-item {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #3d1a5e;
+  transition: transform 0.3s ease;
+}
+
+.archive-item:hover {
+  transform: translateY(-5px);
+  border-color: #f1c40f;
+}
+
+/* Шапка елемента з пріоритетом і кошиком */
+.archive-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 0.9em;
+  color: #aaa;
+}
+
+/* Кнопка видалення (Task 7 UI) */
+.delete-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  filter: grayscale(1);
+  transition:
+    filter 0.3s,
+    transform 0.2s;
+}
+
+.delete-btn:hover {
+  filter: grayscale(0);
+  transform: scale(1.2);
+}
+
+.archive-cards {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+.archive-card-mini {
+  width: 50px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 5px;
+  border: 1px solid #5d2a8e;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}

@@ -1,6 +1,6 @@
 import express from "express";
 import { asyncFilterPromise } from "./asyncArray.js";
-import { withLogging, setLogLevel } from "../utils/logger.js";
+import { withLogging, setLogLevel } from "../../utils/logger.js";
 
 const router = express.Router();
 

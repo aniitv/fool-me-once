@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { CardList } from "../../../backend/src/data/Cards.js";
+import { useState, useEffect } from "react";
 import Saved from "./Saved.jsx";
 import { Shuffle, flipSequence } from "../../../backend/logic.js";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +7,7 @@ import Background from "./Background.jsx";
 import "../styles/cards.css";
 
 export default function TarotCards() {
-  const [Deck, setDeck] = useState(CardList);
+  const [Deck, setDeck] = useState([]);
   const [isShuffling, setIsShuffling] = useState(false);
   const [hasShuffled, setHasShuffled] = useState(false);
 
@@ -16,11 +15,36 @@ export default function TarotCards() {
   const [flippedCards, setFlippedCards] = useState([]);
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
   const [showRevealButton, setShowRevealButton] = useState(true);
-
   const navigate = useNavigate();
 
-  // const [interpretation, setInterpretation] = useState("");
-  // const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    const fetchDeck = async () => {
+      const response = await fetch("http://localhost:5000/api/cards/stream");
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop();
+
+        for (const line of lines) {
+          if (line.trim()) {
+            const card = JSON.parse(line);
+            setDeck((prev) =>
+              prev.some((c) => c.id === card.id) ? prev : [...prev, card],
+            );
+          }
+        }
+      }
+    };
+
+    fetchDeck();
+  }, []);
 
   const handleSaveImages = async () => {
     if (selectedCards.length < 3) return;
@@ -41,33 +65,24 @@ export default function TarotCards() {
   };
 
   const handleShuffle = async () => {
-    // якщо тасується, то не буде тасуватись знов
     if (isShuffling) return;
     setShowRevealButton(true);
-    // не можна вибрать поки не перетасується
     setHasShuffled(false);
-    // вибрані та перевернуті карти скидаються
     setSelectedCards([]);
     setFlippedCards([]);
 
     setIsShuffling(true);
-    // ShuffleSound.currentTime = 0;
-    // ShuffleSound.play();
 
-    // виклик ГЕНЕРАТОРА та ІТЕРАТОР
     const shuffleGenerator = Shuffle(Deck);
 
     const shuffleInterval = setInterval(() => {
-      // поточний стан та коли все перемішано
       const { value, done } = shuffleGenerator.next();
 
       if (done) {
         clearInterval(shuffleInterval);
-        // можна тикать кнопочки та карточки
         setIsShuffling(false);
         setHasShuffled(true);
       } else {
-        // оновлення колоди
         setDeck(value);
       }
     }, 60);
@@ -89,14 +104,11 @@ export default function TarotCards() {
 
   const handleSelectCard = (card) => {
     if (!hasShuffled) return;
-
     if (selectedCards.length === 3) return;
-
     const alreadySelected = selectedCards.some((c) => c.id === card.id);
     if (alreadySelected) return;
 
     const isReversed = Math.random() < 0.5;
-
     setSelectedCards((prev) => [...prev, { ...card, isReversed }]);
   };
 
@@ -104,12 +116,9 @@ export default function TarotCards() {
     const deadline = Date.now() + timeout * 1000;
 
     function process() {
-      if (Date.now() >= deadline) {
-        return;
-      }
+      if (Date.now() >= deadline) return;
       const result = iterator.next();
-      const done = result.done;
-      if (!done) {
+      if (!result.done) {
         onValue(result.value);
         setTimeout(process, 800);
       }
@@ -148,7 +157,7 @@ export default function TarotCards() {
         <button
           className="shuffle-button"
           onClick={handleShuffle}
-          disabled={isShuffling}
+          disabled={isShuffling || Deck.length === 0}
         >
           Shuffle
         </button>
@@ -162,7 +171,7 @@ export default function TarotCards() {
         <div className="button-row">
           {flippedCards.length === 3 && (
             <button className="save-button" onClick={handleSaveImages}>
-              Save сards
+              Save cards
             </button>
           )}
 
@@ -192,7 +201,6 @@ export default function TarotCards() {
           const isFlipped = flippedCards.includes(card.id);
 
           return (
-            //iterating through deck array and calculating status of each card
             <div
               key={card.id}
               className={`card-container ${isSelected ? "selected" : ""} ${isFlipped ? "flipped" : ""}`}
@@ -206,7 +214,6 @@ export default function TarotCards() {
                     alt="back"
                   />
                 </div>
-
                 <div className="card-front">
                   <img src={card.image} className="card-image" alt="front" />
                   <div className="card-label">{card.name}</div>
