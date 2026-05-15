@@ -269,10 +269,10 @@ body {
   font-size: 24px;
   cursor: pointer;
 }
-/* Контейнер архіву */
+
 .saved-archive {
   padding: 20px;
-  background: rgba(20, 10, 35, 0.95); /* Глибокий фіолетовий/чорний */
+  background: rgba(20, 10, 35, 0.95);
   border-radius: 15px;
   color: #e0d5ff;
   max-width: 800px;
@@ -280,10 +280,10 @@ body {
   border: 1px solid #5d2a8e;
 }
 
-/* Заголовок та кнопка закриття */
+
 .saved-archive h2 {
   text-align: center;
-  color: #f1c40f; /* Золотий */
+  color: #f1c40f;
   text-transform: uppercase;
   letter-spacing: 2px;
 }
@@ -297,7 +297,6 @@ body {
   cursor: pointer;
 }
 
-/* Сітка карток */
 .archive-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -305,7 +304,6 @@ body {
   margin-top: 20px;
 }
 
-/* Елемент архіву */
 .archive-item {
   background: rgba(255, 255, 255, 0.05);
   padding: 15px;
@@ -319,7 +317,6 @@ body {
   border-color: #f1c40f;
 }
 
-/* Шапка елемента з пріоритетом і кошиком */
 .archive-header {
   display: flex;
   justify-content: space-between;
@@ -329,7 +326,6 @@ body {
   color: #aaa;
 }
 
-/* Кнопка видалення (Task 7 UI) */
 .delete-btn {
   background: none;
   border: none;

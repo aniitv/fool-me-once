@@ -31,7 +31,7 @@ const checkPassword = (password) => {
 const memoCheck = memoize(checkPassword, 10);
 
 app.use("/api/ai", aiRouter);
-app.use("/notification", notificationRouter);
+app.use("/notifications", notificationRouter);
 app.use("/api/saved", savedRoutes);
 app.use("/api/cards", cardsRouter);
 

@@ -8,7 +8,7 @@ body {
 }
 .main-nav {
   display: flex;
-  gap: 60px; /* Ось цей відступ, який ти просила */
+  gap: 60px;
   padding: 30px 50px;
   position: absolute;
   top: 0;
@@ -22,7 +22,7 @@ body {
   color: #9d50bb;
   text-decoration: none;
   font-family: "Press Start 2P", cursive;
-  font-size: 12px; /* Дрібніший шрифт для навігації */
+  font-size: 12px;
   text-transform: uppercase;
   transition: 0.3s;
 }
@@ -31,19 +31,18 @@ body {
   color: white;
   text-shadow: 0 0 10px #9d50bb;
 }
-/* Навігаційна панель */
+
 .navbar {
   display: flex;
-  gap: 50px; /* Відступ між "Main page" та "Notifications" */
+  gap: 50px;
   padding: 20px 40px;
   background-color: #030d33;
-  position: fixed; /* Фіксуємо зверху */
+  position: fixed;
   top: 0;
   width: 100%;
   z-index: 1000;
 }
 
-/* Стиль посилань */
 .nav-link {
   color: #9d50bb;
   text-decoration: none;
@@ -57,9 +56,8 @@ body {
   color: white;
 }
 
-/* Контейнер для сторінок */
 .page-content {
-  padding-top: 80px; /* Цей відступ не дає тексту наповзати на навігацію */
+  padding-top: 80px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;

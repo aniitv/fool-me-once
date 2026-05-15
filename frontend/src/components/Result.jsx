@@ -154,7 +154,7 @@ export default function ResultPage() {
         </div>
 
         <div className="result-actions">
-          <button className="new-spread-btn" onClick={() => navigate("/")}>
+          <button className="new-spread-btn" onClick={() => navigate("/cards")}>
             New Spread
           </button>
         </div>

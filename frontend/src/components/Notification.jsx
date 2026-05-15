@@ -6,13 +6,13 @@ function NotificationsPage() {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/notification")
+    fetch("http://localhost:5000/notifications")
       .then((res) => res.json())
       .then((data) => setNotifications(data))
       .catch((err) => console.error(err));
 
     const source = new EventSource(
-      "http://localhost:5000/notification/subscribe",
+      "http://localhost:5000/notifications/subscribe",
     );
 
     source.onmessage = (event) => {
