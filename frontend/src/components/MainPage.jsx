@@ -55,21 +55,17 @@ function MainPage() {
     <div className="main-page-container">
       <Background />
 
-      <div className="auth-panel">
-        <p className="auth-status">
-          Status: {isAuth ? "Logged in" : "Logged out"}
-        </p>
+      {isAuth && (
+        <div className="auth-panel">
+          <p className="auth-status">
+            Status: <span>ONLINE</span>
+          </p>
 
-        {!isAuth ? (
-          <button className="auth-btn" onClick={handleLogin}>
-            Login
-          </button>
-        ) : (
           <button className="auth-btn secondary" onClick={handleLogout}>
             Logout
           </button>
-        )}
-      </div>
+        </div>
+      )}
 
       <header className="hero-section">
         <h1>

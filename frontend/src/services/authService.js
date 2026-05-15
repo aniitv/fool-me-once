@@ -6,23 +6,16 @@ class AuthService {
     this.listeners = new Set();
   }
 
-  login = log({ level: "INFO" })(async (user = "guest") => {
+  login = log({ level: "INFO" })(async () => {
     this.isAuthenticated = true;
     this.emit();
-
-    return {
-      status: "logged_in",
-      user,
-    };
+    return { status: "logged_in" };
   });
 
   logout = log({ level: "INFO" })(async () => {
     this.isAuthenticated = false;
     this.emit();
-
-    return {
-      status: "logged_out",
-    };
+    return { status: "logged_out" };
   });
 
   getAuth() {
@@ -31,6 +24,8 @@ class AuthService {
 
   subscribe(callback) {
     this.listeners.add(callback);
+
+    callback(this.isAuthenticated);
   }
 
   unsubscribe(callback) {
