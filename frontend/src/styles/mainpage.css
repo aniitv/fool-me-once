@@ -122,3 +122,67 @@
   color: #9d50bb;
   margin-top: 4px;
 }
+
+.auth-panel {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  padding: 12px 14px;
+
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(8px);
+
+  border-radius: 16px;
+  border: 1px solid rgba(157, 80, 187, 0.25);
+
+  color: white;
+  text-align: center;
+}
+
+.auth-status {
+  font-size: 0.7rem;
+  color: #ccc;
+  font-family: "Press Start 2P", cursive;
+}
+
+.auth-status span {
+  color: #9d50bb;
+}
+
+.auth-btn {
+  padding: 8px 18px;
+
+  background: #9d50bb;
+  color: white;
+
+  border: none;
+  border-radius: 5px;
+
+  cursor: pointer;
+
+  font-size: 0.65rem;
+  font-family: "Press Start 2P", cursive;
+
+  transition: all 0.2s ease;
+}
+
+.auth-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(157, 80, 187, 0.5);
+}
+
+.auth-btn.secondary {
+  background: transparent;
+  border: 1px solid #9d50bb;
+}
+
+.auth-btn.secondary:hover {
+  background: rgba(157, 80, 187, 0.15);
+  box-shadow: 0 0 12px rgba(157, 80, 187, 0.3);
+}

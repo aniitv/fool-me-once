@@ -1,9 +1,31 @@
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Background from "./Background";
 import "../styles/mainpage.css";
 import { CardList } from "../../../backend/src/data/Cards.js";
+import { authService } from "../services/authService";
 
 function MainPage() {
+  const [isAuth, setIsAuth] = useState(authService.getAuth());
+
+  useEffect(() => {
+    const handler = (value) => setIsAuth(value);
+
+    authService.subscribe(handler);
+
+    return () => {
+      authService.unsubscribe(handler);
+    };
+  }, []);
+
+  const handleLogin = async () => {
+    await authService.login("guest");
+  };
+
+  const handleLogout = async () => {
+    await authService.logout();
+  };
+
   const cardPast = CardList.find((c) => c.name === "The Fool");
   const cardPresent = CardList.find((c) => c.name === "The Star");
   const cardFuture = CardList.find((c) => c.name === "Death");
@@ -32,6 +54,22 @@ function MainPage() {
   return (
     <div className="main-page-container">
       <Background />
+
+      <div className="auth-panel">
+        <p className="auth-status">
+          Status: {isAuth ? "Logged in" : "Logged out"}
+        </p>
+
+        {!isAuth ? (
+          <button className="auth-btn" onClick={handleLogin}>
+            Login
+          </button>
+        ) : (
+          <button className="auth-btn secondary" onClick={handleLogout}>
+            Logout
+          </button>
+        )}
+      </div>
 
       <header className="hero-section">
         <h1>

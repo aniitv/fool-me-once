@@ -1,18 +1,29 @@
+import { log } from "../utils/loggger";
+
 class AuthService {
   constructor() {
     this.isAuthenticated = false;
     this.listeners = new Set();
   }
 
-  login() {
+  login = log({ level: "INFO" })(async (user = "guest") => {
     this.isAuthenticated = true;
     this.emit();
-  }
 
-  logout() {
+    return {
+      status: "logged_in",
+      user,
+    };
+  });
+
+  logout = log({ level: "INFO" })(async () => {
     this.isAuthenticated = false;
     this.emit();
-  }
+
+    return {
+      status: "logged_out",
+    };
+  });
 
   getAuth() {
     return this.isAuthenticated;
@@ -20,10 +31,10 @@ class AuthService {
 
   subscribe(callback) {
     this.listeners.add(callback);
+  }
 
-    return () => {
-      this.listeners.delete(callback);
-    };
+  unsubscribe(callback) {
+    this.listeners.delete(callback);
   }
 
   emit() {
