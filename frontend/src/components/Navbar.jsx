@@ -6,13 +6,9 @@ export default function Navbar() {
   const [isAuth, setIsAuth] = useState(authService.getAuth());
 
   useEffect(() => {
-    const handler = (value) => setIsAuth(value);
+    const unsubscribe = authService.subscribe(setIsAuth);
 
-    authService.subscribe(handler);
-
-    return () => {
-      authService.unsubscribe(handler);
-    };
+    return unsubscribe;
   }, []);
 
   return (

@@ -20,10 +20,10 @@ class AuthService {
 
   subscribe(callback) {
     this.listeners.add(callback);
-  }
 
-  unsubscribe(callback) {
-    this.listeners.delete(callback);
+    return () => {
+      this.listeners.delete(callback);
+    };
   }
 
   emit() {
