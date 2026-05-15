@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import "../styles/cards.css";
+import { apiProxy } from "../utils/apiProxy.js";
 
 export default function Saved({ onClose }) {
   const [savedReadings, setSavedReadings] = useState([]);
 
   const fetchSavedReadings = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/saved/all");
-      const data = await response.json();
+      const data = await apiProxy("http://localhost:5000/api/saved/all");
       setSavedReadings(data);
     } catch (error) {
       console.error("error while loading archive:", error);
