@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import "../styles/cards.css";
-import { apiProxy } from "../utils/apiProxy.js";
 
 export default function Saved({ onClose }) {
   const [savedReadings, setSavedReadings] = useState([]);
 
   const fetchSavedReadings = async () => {
     try {
-      const data = await apiProxy("http://localhost:5000/api/saved/all");
+      const response = await fetch("http://localhost:5000/api/saved/all");
+      const data = await response.json();
       setSavedReadings(data);
     } catch (error) {
-      console.error("error while loading archive:", error);
+      console.error("Помилка завантаження:", error);
     }
   };
 
@@ -34,7 +34,7 @@ export default function Saved({ onClose }) {
             <div key={index} className="archive-item">
               <span>Priority: {reading.priority}</span>
               <div className="archive-cards">
-                {reading.item.images.map((img, i) => (
+                {reading.item?.images?.map((img, i) => (
                   <img
                     key={i}
                     src={img}

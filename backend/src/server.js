@@ -37,24 +37,17 @@ app.use("/api/cards", cardsRouter);
 
 app.post("/signup", async (req, res) => {
   const { username: name, password } = req.body;
-
-  if (!name || !password) {
+  if (!name || !password)
     return res.status(400).send("Username and password are required");
-  }
 
   const strength = memoCheck(password);
 
   try {
     const existingUser = await collection.findOne({ name });
-    if (existingUser) {
-      return res.status(400).send("User already exists.");
-    }
+    if (existingUser) return res.status(400).send("User already exists.");
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const userdata = await collection.create({
-      name,
-      password: hashedPassword,
-    });
+    await collection.create({ name, password: hashedPassword });
 
     res
       .status(201)
@@ -66,14 +59,11 @@ app.post("/signup", async (req, res) => {
 
 app.post("/signin", async (req, res) => {
   const { username, password } = req.body;
-
   try {
     const user = await collection.findOne({ name: username });
-
     if (user && (await bcrypt.compare(password, user.password))) {
       return res.send("success");
     }
-
     res.send(user ? "Wrong password" : "User name cannot be found");
   } catch (e) {
     res.status(500).send("Signin error");

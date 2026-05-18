@@ -1,6 +1,7 @@
 import express from "express";
 import { asyncFilterPromise } from "./asyncArray.js";
 import { withLogging, setLogLevel } from "../../utils/logger.js";
+import { apiProxy } from "../../utils/apiProxy.js";
 
 const router = express.Router();
 
@@ -47,7 +48,18 @@ router.post("/save", async (req, res) => {
   }
 });
 
-router.get("/all", (req, res) => {
+router.get("/all", async (req, res) => {
+  try {
+    const data = await apiProxy(
+      "http://localhost:5000/api/saved/internal/archive",
+    );
+    res.json(data);
+  } catch (err) {
+    res.json(savedQueue.elements);
+  }
+});
+
+router.get("/internal/archive", (req, res) => {
   res.json(savedQueue.elements);
 });
 
