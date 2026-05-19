@@ -280,7 +280,6 @@ body {
   border: 1px solid #5d2a8e;
 }
 
-
 .saved-archive h2 {
   text-align: center;
   color: #f1c40f;
@@ -352,7 +351,7 @@ body {
   width: 50px;
   height: 80px;
   object-fit: cover;
-  border-radius: 5px;
-  border: 1px solid #5d2a8e;
+  border-radius: 11px;
+  border: 1px solid #ffd700;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
